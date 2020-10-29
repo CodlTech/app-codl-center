@@ -1,0 +1,78 @@
+[
+  {
+    "id": "web3_clientVersion",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Get the current client version.",
+    "returns": "string"
+  },
+  {
+    "id": "web3_sha3",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Calculate a cryptographic hash.\n\nThe input parameter contains hexidecimal bytes of arbitrary length. The example here uses the UTF-8 text string “snowstorm” converted to hexidecimal bytes.",
+    "formals": {
+      "data": "string"
+    },
+    "returns": "string",
+    "example": {
+      "data": "0x736e6f7773746f726d"
+    }
+  },
+  {
+    "id": "net_version",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Get the network ID.",
+    "returns": "string"
+  },
+  {
+    "id": "eth_chainId",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Get the chain ID.",
+    "returns": "string"
+  },
+  {
+    "id": "eth_blockNumber",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Get the most recent block number.",
+    "returns": "string"
+  },
+  {
+    "id": "eth_getBalance",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Get an account's balance.",
+    "formals": {
+      "address": "string",
+      "block": "string"
+    },
+    "returns": "string",
+    "example": {
+      "address": "0x820891f8b95daf5ea7d7ce7667e6bba2dd5c5594",
+      "block": "latest"
+    }
+  },
+  {
+    "id": "eth_getTransactionCount",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Get an account's nonce.",
+    "formals": {
+      "address": "string",
+      "block": "string"
+    },
+    "returns": "string",
+    "example": {
+      "address": "0x820891f8b95daf5ea7d7ce7667e6bba2dd5c5594",
+      "block": "latest"
+    }
+  },
+  {
+    "id": "personal_newAccount",
+    "endpoint": "/ext/bc/C/rpc",
+    "description": "Create a new account.\n\nThe EVM will create a new account using the passphrase `cheese` to encrypt and store the new account credentials. `cheese` is not the seed phrase and cannot be used to restore this account from scratch. Calling this function repeatedly with the same passphrase will create multiple unique accounts. Also, keep in mind there are no options to export private keys stored in the EVM database. Users are encouraged to use wallet software instead of safer account creation and backup. This method is more suitable for quick account creation for a testnet.",
+    "formals": {
+      "passphrase": "string"
+    },
+    "returns": "string",
+    "example": {
+      "passphrase": "cheese"
+    }
+  }
+]

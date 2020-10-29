@@ -1,0 +1,89 @@
+{
+  "id": "admin",
+  "name": "Admin API",
+  "description": "This API can be used for measuring node health and debugging.\nNote that the Admin API is disabled by default for security reasons.\nTo run a node with the Admin API enabled, use [command line argument](https://docs.avax.network/build/references/command-line-interface) `--api-admin-enabled=true`.\n",
+  "methods": [
+    {
+      "id": "admin.alias",
+      "endpoint": "/ext/admin",
+      "description": "Assign an API endpoint an alias, a different endpoint for the API. The original endpoint will still work. This change only affects this node; other nodes will not know about this alias.",
+      "signature": "admin.alias({\n    endpoint: string,\n    alias: string\n}) -> {\n    success: bool\n}",
+      "formals": {
+        "endpoint": "string",
+        "alias": "string"
+      },
+      "returns": {
+        "success": "bool"
+      },
+      "example": {
+        "alias": "myAlias",
+        "endpoint": "bc/X"
+      },
+      "notes": [
+        "`endpoint` is the original endpoint of the API. `endpoint` should only include the part of the endpoint after `/ext/`.",
+        "The API being aliased can now be called at `ext/alias`.",
+        "`alias` can be at most 512 characters."
+      ]
+    },
+    {
+      "id": "admin.aliasChain",
+      "endpoint": "/ext/admin",
+      "description": "Give a blockchain an alias, a different name that can be used any place the blockchain's ID is used.",
+      "signature": "admin.aliasChain({\n    chain: string,\n    alias: string\n}) -> {\n    success: bool\n}",
+      "formals": {
+        "chain": "string",
+        "alias": "string"
+      },
+      "returns": {
+        "success": "bool"
+      },
+      "example": {
+        "chain": "sV6o671RtkGBcno1FiaDbVcFv2sG5aVXMZYzKdP4VQAWmJQnM",
+        "alias": "myBlockchainAlias"
+      },
+      "notes": [
+        "`chain` is the blockchain's ID.",
+        "`alias` can now be used in place of the blockchain's ID (in API endpoints, for example.)"
+      ]
+    },
+    {
+      "id": "admin.lockProfile",
+      "endpoint": "/ext/admin",
+      "description": "Writes a profile of mutex statistics to `lock.profile`.",
+      "signature": "admin.lockProfile() -> {\n    success: bool\n}",
+      "returns": {
+        "success": "bool"
+      },
+      "example": {}
+    },
+    {
+      "id": "admin.memoryProfile",
+      "endpoint": "/ext/admin",
+      "description": "Writes a memory profile of the to `mem.profile`.",
+      "signature": "admin.memoryProfile() -> {\n    success: bool\n}",
+      "returns": {
+        "success": "bool"
+      },
+      "example": {}
+    },
+    {
+      "id": "admin.startCPUProfiler",
+      "endpoint": "/ext/admin",
+      "description": "Start profiling the CPU utilization of the node. To stop, call `stopCPUProfiler`. On stop, writes the profile to `cpu.profile`.",
+      "signature": "admin.startCPUProfiler() -> {\n    success: bool\n}",
+      "returns": {
+        "success": "bool"
+      },
+      "example": {}
+    },
+    {
+      "id": "admin.stopCPUProfiler",
+      "endpoint": "/ext/admin",
+      "description": "Stop the CPU profile that was previously started.",
+      "signature": "admin.stopCPUProfiler() -> {\n    success: bool\n}",
+      "returns": {
+        "success": "bool"
+      }
+    }
+  ]
+}

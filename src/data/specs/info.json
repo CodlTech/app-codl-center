@@ -1,0 +1,93 @@
+{
+  "id": "info",
+  "name": "Info API",
+  "description": "This API can be used to access basic information about the node.\n",
+  "methods": [
+    {
+      "id": "info.getBlockchainID",
+      "endpoint": "/ext/info",
+      "description": "Given a blockchain's alias, get its ID. (See [admin.aliasChain](./admin.md#adminaliaschain) for more context.)",
+      "signature": "info.getBlockchainID({\n    alias: string\n}) -> {\n    blockchainID: string\n}",
+      "formals": {
+        "alias": "string"
+      },
+      "returns": {
+        "blockchainID": "string"
+      },
+      "example": {
+        "alias": "X"
+      }
+    },
+    {
+      "id": "info.getNetworkID",
+      "endpoint": "/ext/info",
+      "description": "Get the ID of the network this node is participating in.",
+      "signature": "info.getNetworkID() -> {\n    networkID: int\n}",
+      "returns": {
+        "networkID": "int"
+      }
+    },
+    {
+      "id": "info.getNetworkName",
+      "endpoint": "/ext/info",
+      "description": "Get the name of the network this node is participating in.",
+      "signature": "info.getNetworkName() -> {\n    networkName: string\n}",
+      "returns": {
+        "networkName": "string"
+      }
+    },
+    {
+      "id": "info.getNodeID",
+      "endpoint": "/ext/info",
+      "description": "Get the ID of this node.",
+      "signature": "info.getNodeID() -> {\n    nodeID: string\n}",
+      "returns": {
+        "nodeID": "string"
+      }
+    },
+    {
+      "id": "info.getNodeVersion",
+      "endpoint": "/ext/info",
+      "description": "Get the version of this node.",
+      "signature": "info.getNodeVersion() -> {\n    version: string\n}",
+      "returns": {
+        "version": "string"
+      }
+    },
+    {
+      "id": "info.isBootstrapped",
+      "endpoint": "/ext/info",
+      "description": "Check whether a given chain is done bootstrapping",
+      "signature": "info.isBootstrapped({\n    chain: string\n}) -> {\n    isBootstrapped: bool\n}",
+      "formals": {
+        "chain": "string"
+      },
+      "returns": {
+        "isBootstrapped": "bool"
+      },
+      "example": {
+        "chain": "X"
+      },
+      "notes": ["`chain` is the ID or alias of a chain."]
+    },
+    {
+      "id": "info.peers",
+      "endpoint": "/ext/info",
+      "description": "Get description of peer connections.",
+      "signature": "info.peers() -> {\n    numPeers: int,\n    peers: []{\n        ip: string,\n        publicIP: string,\n        nodeID: string,\n        version: string,\n        lastSent: string,\n        lastReceived: string\n    }\n}",
+      "returns": {
+        "numPeers": "int",
+        "peers": "[]object"
+      }
+    },
+    {
+      "id": "info.getTxFee",
+      "endpoint": "/ext/info",
+      "description": "Get the transaction fee of the network.",
+      "signature": "info.getTxFee() -> {\n    txFee: uint64\n}",
+      "returns": {
+        "txFee": "uint64"
+      }
+    }
+  ]
+}

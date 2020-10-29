@@ -1,0 +1,20 @@
+/* Floating Button */
+
+.FloatingButton {
+  @include elevation(1);
+
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  height: 2.5em;
+  width: 2.5em;
+
+  border: 0.1em solid $black !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-size: 1.3em;
+  }
+}

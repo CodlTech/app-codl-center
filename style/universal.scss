@@ -1,0 +1,18 @@
+/* Universal rules */
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  vertical-align: inherit;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

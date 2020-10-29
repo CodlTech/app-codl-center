@@ -1,0 +1,47 @@
+/* Generic Definitions */
+
+/* Document */
+
+html {
+  position: relative;
+  min-height: 100%;
+  overflow-y: scroll;
+}
+
+body {
+  height: 100%;
+  // background: $white;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: $black;
+  line-height: 1.4em;
+}
+
+/* Block Elements */
+
+hr {
+  clear: both;
+}
+
+p {
+  vertical-align: baseline;
+}
+
+/* Inline Elements */
+
+span,
+a,
+label {
+  svg {
+    display: inline;
+    height: 1em;
+    width: 1em;
+    margin-bottom: -0.125em;
+  }
+}
+
+a {
+  &:hover:not(.selected) {
+    cursor: pointer;
+    color: $secondary;
+  }
+}

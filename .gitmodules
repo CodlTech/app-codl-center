@@ -1,0 +1,6 @@
+[submodule "web"]
+	path = web
+	url = https://github.com/codltech/app-codl-center-web
+[submodule "lab/doc-parser/avalanche-docs"]
+	path = lab/doc-parser/avalanche-docs
+	url = https://github.com/ava-labs/avalanche-docs

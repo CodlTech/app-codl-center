@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="
+    form-action 'none';
+    default-src 'none';
+    script-src 'self';
+    style-src 'self';
+    font-src 'self';
+    img-src 'self';
+    manifest-src 'self';
+    connect-src *;
+  ">
+
+  <!-- Preload resources -->
+  <script src="index.js" defer></script>
+  <link rel="preload" href="index.css" as="style">
+
+  <title>Codl.center ~ Let's get Started!</title>
+  <meta property="og:title"
+    content="Codl.center ~ Let's Get Started!">
+  <meta property="og:description" name="description"
+    content="Codl.center is an interactive API reference for the Avalanche-go node">
+
+  <meta property="og:image" content="https://codl.center/icons/512x512.png">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:width" content="512">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="msapplication-config" content="browserconfig.xml">
+  <meta name="theme-color" content="#001738">
+
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch.png">
+  <link rel="mask-icon" href="icons/safari.svg" color="#001738">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+</html>

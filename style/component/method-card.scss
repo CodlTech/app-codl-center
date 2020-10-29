@@ -1,0 +1,10 @@
+/* MethodCard */
+
+.MethodCard {
+  // Fix Chrome subpixel padding by triggering subpixel rendering.
+  transform: rotate(-0.00001deg);
+
+  header {
+    border-bottom: 0;
+  }
+}

@@ -1,0 +1,34 @@
+/* ShareButton */
+
+.ShareButton {
+  float: right;
+
+  &:hover * {
+    color: $primary !important;
+  }
+
+  a {
+    display: inline-block;
+    vertical-align: top;
+
+    padding-top: 0.15em;
+
+    font-size: 1.1em;
+    color: $black;
+  }
+
+  span {
+    position: absolute;
+    right: 2.4em;
+    pointer-events: none;
+
+    transition: all 0.2s ease;
+    margin-right: -1em;
+    opacity: 0;
+
+    &.activated {
+      opacity: 1;
+      margin-right: 0;
+    }
+  }
+}

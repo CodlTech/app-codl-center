@@ -1,0 +1,11 @@
+/* MethodForm */
+
+.MethodForm {
+  flex-grow: 1;
+
+  label span:nth-child(2) {
+    float: right;
+    font-style: italic;
+    color: grey;
+  }
+}

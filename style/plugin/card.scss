@@ -1,0 +1,24 @@
+/* card */
+
+.card {
+  margin: 1.4em;
+
+  header {
+    font-weight: unset; // Picnic
+    background: $primaryLight;
+  }
+
+  h3 {
+    font-size: 1.4em;
+    font-family: monospace;
+  }
+
+  p {
+    margin: 0.6em; // Picnic
+  }
+
+  & > div {
+    justify-content: flex-end !important;
+    background: whitesmoke;
+  }
+}

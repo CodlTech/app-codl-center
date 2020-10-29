@@ -1,0 +1,13 @@
+{
+  "id": "health",
+  "name": "Health API",
+  "description": "This API can be used for measuring node health.\n\nTo get an HTTP status code response that indicates the node's health, make a `GET` request to `/ext/health`.\nIf the node is healthy, it will return a `200` status code.\nIf you want more in-depth information about a node's health, use the methods below.\n",
+  "methods": [
+    {
+      "id": "health.getLiveness",
+      "endpoint": "/ext/health",
+      "description": "The node runs a set of health checks every 30 seconds, including a health check for each chain. This method returns the last set of health check results.",
+      "signature": "health.getLiveness() -> {\n    checks: []{\n        checkName: {\n            message: JSON,\n            error: JSON,\n            timestamp: string,\n            duration: int,\n            contiguousFailures: int,\n            timeOfFirstFailure: int\n        }\n    },\n    healthy: bool\n}"
+    }
+  ]
+}

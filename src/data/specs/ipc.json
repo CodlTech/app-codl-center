@@ -1,0 +1,46 @@
+{
+  "id": "ipc",
+  "name": "IPC API",
+  "description": "The IPC API allows users to create UNIX domain sockets for blockchains to publish to.\nWhen the blockchain accepts a vertex/block it will publish it to a socket and the decisions contained inside will be published to another.\n\nA node will only expose this API if it is started with [command-line argument](https://docs.avax.network/build/references/command-line-interface) `api-ipcs-enabled=true`. \n",
+  "methods": [
+    {
+      "id": "ipcs.publishBlockchain",
+      "endpoint": "/ext/ipcs",
+      "description": "Register a blockchain so it publishes accepted vertices to a Unix domain socket.",
+      "signature": "ipcs.publishBlockchain({\n    blockchainID: string\n}) -> {\n    consensusURL: string,\n    decisionsURL: string\n}",
+      "formals": {
+        "blockchainID": "string"
+      },
+      "returns": {
+        "consensusURL": "string",
+        "decisionsURL": "string"
+      },
+      "example": {
+        "blockchainID": "11111111111111111111111111111111LpoYY"
+      },
+      "notes": [
+        "`blockchainID` is the blockchain that will publish accepted vertices.",
+        "`consensusURL` is the path of the Unix domain socket the vertices are published to.",
+        "`decisionsURL` is the path of the Unix domain socket the transactions are published to."
+      ]
+    },
+    {
+      "id": "ipcs.unpublishBlockchain",
+      "endpoint": "/ext/ipcs",
+      "description": "Deregister a blockchain so that it no longer publishes to a Unix domain socket.",
+      "signature": "ipcs.unpublishBlockchain({\n    blockchainID: string\n}) -> {\n    success: bool\n}",
+      "formals": {
+        "blockchainID": "string"
+      },
+      "returns": {
+        "success": "bool"
+      },
+      "example": {
+        "blockchainID": "11111111111111111111111111111111LpoYY"
+      },
+      "notes": [
+        "`blockchainID` is the blockchain that will no longer publish to a Unix domain socket."
+      ]
+    }
+  ]
+}

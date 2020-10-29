@@ -1,0 +1,37 @@
+/* Application */
+
+$header-height: 3rem;
+$footer-height: 3rem;
+
+.Application {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: $header-height 0 $footer-height 0;
+
+  // Prevent Android Chrome font boost.
+  & > * { max-height: 100%; }
+
+  & > main {
+    width: 53em;
+    max-width: 96%;
+    margin: 1.4rem auto;
+
+    // Fix anchors offset
+    a[name] {
+      display: block;
+      position: relative;
+      top: -$header-height;
+    }
+  }
+
+  & > footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $footer-height;
+
+    // line-height: $footer-height;
+    text-align: center;
+  }
+}
