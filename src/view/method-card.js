@@ -7,7 +7,7 @@ const { markdownToHtml } = require("../helpers")
 
 const MethodForm = require("./method-form")
 const MethodSnippets = require("./method-snippets")
-const ShareButton = require("./lib/share-button")
+const ShareLink = require("./lib/share-link")
 
 /* Definition */
 
@@ -19,7 +19,7 @@ class MethodCard extends View {
 
   <header onclick=%logMe>
     <h3>%id</h3>
-    %shareButton
+    %shareLink
   </header>
 
   <p>%prettyDescription</p>
@@ -40,7 +40,7 @@ class MethodCard extends View {
     this.$pick(method, ["id", "description", "notes", "arguments"])
 
     /* Components */
-    this.shareButton = new ShareButton({
+    this.shareLink = new ShareLink({
       title: `Share this method card`,
       url: this.cardUrl
     })
