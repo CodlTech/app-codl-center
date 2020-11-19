@@ -15,7 +15,7 @@ class MethodCard extends View {
   constructor (method) {
     super(`
 <section class="MethodCard card">
-  <a name=%id></a><a name=%idLowcase></a>
+  <a name=%id></a><a name=%avadocsId></a>
 
   <header onclick=%logMe>
     <h3>%id</h3>
@@ -70,8 +70,8 @@ proto.$define("noNotes", ["arguments"], (the) => {
   return the.notes.length === 0
 })
 
-proto.$define("idLowcase", ["id"], (the) => {
-  return the.id.toLowerCase()
+proto.$define("avadocsId", ["id"], (the) => {
+  return the.id.replace(".", "-").toLowerCase()
 })
 
 proto.$define("apiId", ["id"], (the) => {
@@ -96,11 +96,13 @@ proto.$define("notesLi", ["notes"], (the) => {
 /* Helpers */
 
 function rewriteMethodLinks (string, apiId) {
-  const stxMethodId = new RegExp(`\`(${apiId}\\.\\w+)\``)
-  const stxMethodLink = /\(\.\/(\w+)\.md#\1(\w+)\)/
+  // ]($api-pagename#$methodId)
+  const stxMethodLink = /]\(([^)-]+)[^)]*#([^)]+)\)/g
+  // `$apiId.$methodId`
+  const stxMethodId = new RegExp(`\`(${apiId}\\.\\w+)\``, "g")
   return string
+    .replace(stxMethodLink, "](?tabId=$1#$2)")
     .replace(stxMethodId, "[`$1`](#$1)")
-    .replace(stxMethodLink, "(?tabId=$1#$1.$2)")
 }
 
 /* Export */

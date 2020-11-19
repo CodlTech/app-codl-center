@@ -6,7 +6,7 @@
     {
       "id": "info.getBlockchainID",
       "endpoint": "/ext/info",
-      "description": "Given a blockchain's alias, get its ID. (See [admin.aliasChain](./admin.md#adminaliaschain) for more context.)",
+      "description": "Given a blockchain’s alias, get its ID. (See [`admin.aliasChain`](admin-api#admin-aliaschain)for more context.)",
       "signature": "info.getBlockchainID({\n    alias: string\n}) -> {\n    blockchainID: string\n}",
       "formals": {
         "alias": "string"
@@ -67,13 +67,12 @@
       },
       "example": {
         "chain": "X"
-      },
-      "notes": ["`chain` is the ID or alias of a chain."]
+      }
     },
     {
       "id": "info.peers",
       "endpoint": "/ext/info",
-      "description": "Get description of peer connections.",
+      "description": "Get a description of peer connections.",
       "signature": "info.peers() -> {\n    numPeers: int,\n    peers: []{\n        ip: string,\n        publicIP: string,\n        nodeID: string,\n        version: string,\n        lastSent: string,\n        lastReceived: string\n    }\n}",
       "returns": {
         "numPeers": "int",

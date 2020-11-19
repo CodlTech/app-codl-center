@@ -1,7 +1,7 @@
 {
   "id": "health",
   "name": "Health API",
-  "description": "This API can be used for measuring node health.\n\nTo get an HTTP status code response that indicates the node's health, make a `GET` request to `/ext/health`.\nIf the node is healthy, it will return a `200` status code.\nIf you want more in-depth information about a node's health, use the methods below.\n",
+  "description": "This API can be used for measuring node health.\n\nTo get an HTTP status code response that indicates the node’s health, make a `GET` request to `/ext/health`. If the node is healthy, it will return a `200` status code. If you want more in-depth information about a node’s health, use the methods below.\n",
   "methods": [
     {
       "id": "health.getLiveness",

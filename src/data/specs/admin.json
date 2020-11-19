@@ -1,7 +1,7 @@
 {
   "id": "admin",
   "name": "Admin API",
-  "description": "This API can be used for measuring node health and debugging.\nNote that the Admin API is disabled by default for security reasons.\nTo run a node with the Admin API enabled, use [command line argument](https://docs.avax.network/build/references/command-line-interface) `--api-admin-enabled=true`.\n",
+  "description": "This API can be used for measuring node health and debugging. Note that the Admin API is disabled by default for security reasons. To run a node with the Admin API enabled, use [command line argument](https://docs.avax.network/build/references/command-line-interface) `--api-admin-enabled=true`.\n",
   "methods": [
     {
       "id": "admin.alias",
@@ -28,7 +28,7 @@
     {
       "id": "admin.aliasChain",
       "endpoint": "/ext/admin",
-      "description": "Give a blockchain an alias, a different name that can be used any place the blockchain's ID is used.",
+      "description": "Give a blockchain an alias, a different name that can be used any place the blockchain’s ID is used.",
       "signature": "admin.aliasChain({\n    chain: string,\n    alias: string\n}) -> {\n    success: bool\n}",
       "formals": {
         "chain": "string",
@@ -42,8 +42,8 @@
         "alias": "myBlockchainAlias"
       },
       "notes": [
-        "`chain` is the blockchain's ID.",
-        "`alias` can now be used in place of the blockchain's ID (in API endpoints, for example.)"
+        "`chain` is the blockchain’s ID.",
+        "`alias` can now be used in place of the blockchain’s ID (in API endpoints, for example.)"
       ]
     },
     {

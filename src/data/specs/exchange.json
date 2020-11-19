@@ -1,12 +1,12 @@
 {
-  "id": "avm",
-  "name": "AVM (X-Chain) API",
-  "description": "The X-Chain, Avalanche's native platform for creating and trading assets, is an instance of the Avalanche Virtual Machine (AVM).\nThis API allows clients to create and trade assets on the X-Chain and other instances of the AVM.\n",
+  "id": "exchange",
+  "name": "Exchange Chain (X-Chain) API",
+  "description": "\n\nThe [X-Chain](https://docs.avax.network/learn/platform-overview/#exchange-chain-x-chain), Avalanche’s native platform for creating and trading assets, is an instance of the Avalanche Virtual Machine (AVM). This API allows clients to create and trade assets on the X-Chain and other instances of the AVM.\n",
   "methods": [
     {
       "id": "avm.buildGenesis",
       "endpoint": "/ext/vm/avm",
-      "description": "Given a JSON representation of this Virtual Machine's genesis state, create the byte representation of that state.",
+      "description": "Given a JSON representation of this Virtual Machine’s genesis state, create the byte representation of that state.",
       "signature": "avm.buildGenesis({\n    genesisData: JSON,\n    encoding: string (optional)\n}) -> {\n    bytes: string,\n    encoding: string\n}",
       "formals": {
         "genesisData": "object",
@@ -89,7 +89,7 @@
     {
       "id": "avm.createFixedCapAsset",
       "endpoint": "/ext/bc/X",
-      "description": "Create a new fixed-cap, fungible asset. A quantity of it is created at initialization and then no more is ever created. The asset can be sent with `avm.send`.",
+      "description": "Create a new fixed-cap, fungible asset. A quantity of it is created at initialization and then no more is ever created. The asset can be sent with `avm.send`.\n\n_Related documentation: [Create a fix cap asset](https://docs.avax.network/build/tutorials/smart-digital-assets/create-a-fix-cap-asset)_",
       "signature": "avm.createFixedCapAsset({\n    name: string,\n    symbol: string,\n    denomination: int, (optional)\n    initialHolders: []{\n        address: string,\n        amount: int\n    },\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    assetID: string,\n    changeAddr: string\n}",
       "formals": {
         "name": "string",
@@ -137,7 +137,7 @@
     {
       "id": "avm.mint",
       "endpoint": "/ext/bc/X",
-      "description": "Mint units of a variable-cap asset (an asset created with `avm.createVariableCapAsset`.)",
+      "description": "Mint units of a variable-cap asset created with [`avm.createVariableCapAsset`](#avm-createvariablecapasset).",
       "signature": "avm.mint({\n    amount: int,\n    assetID: string,\n    to: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "amount": "int",
@@ -165,15 +165,15 @@
         "`amount` units of `assetID` will be created and controlled by address `to`.",
         "`from` are the addresses that you want to use for this operation. If omitted, uses any of your addresses as needed.",
         "`changeAddr` is the address any change will be sent to. If omitted, change is sent to one of the addresses controlled by the user.",
-        "`username` is the user that pays the transaction fee. `username` must hold keys giving it permission to mint more of this asset. That is, it must control at least *threshold* keys for one of the minter sets.",
-        "`txID` is this transaction's ID.",
+        "`username` is the user that pays the transaction fee. `username` must hold keys giving it permission to mint more of this asset. That is, it must control at least _threshold_ keys for one of the minter sets.",
+        "`txID` is this transaction’s ID.",
         "`changeAddr` in the result is the address where any change was sent."
       ]
     },
     {
       "id": "avm.createVariableCapAsset",
       "endpoint": "/ext/bc/X",
-      "description": "Create a new variable-cap, fungible asset. No units of the asset exist at initialization. Minters can mint units of this asset using `avm.mint`.\n\nSee [this tutorial](https://docs.avax.network/build/tutorials/smart-digital-assets/creating-a-variable-cap-asset) for an example of usage.",
+      "description": "Create a new variable-cap, fungible asset. No units of the asset exist at initialization. Minters can mint units of this asset using `avm.mint`.\n\n_Related documentation: [Creating a variable cap asset](https://docs.avax.network/build/tutorials/smart-digital-assets/creating-a-variable-cap-asset)_",
       "signature": "avm.createVariableCapAsset({\n    name: string,\n    symbol: string,\n    denomination: int, (optional)\n    minterSets: []{\n        minters: []string,\n        threshold: int\n    },\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    assetID: string,\n    changeAddr: string\n}",
       "formals": {
         "name": "string",
@@ -226,7 +226,7 @@
     {
       "id": "avm.createNFTAsset",
       "endpoint": "/ext/bc/X",
-      "description": "Create a new non-fungible asset. No units of the asset exist at initialization. Minters can mint units of this asset using `avm.mintNFT`.",
+      "description": "Create a new non-fungible asset. No units of the asset exist at initialization. Minters can mint units of this asset using `avm.mintNFT`.\n\n_Related documentation: [Creating a NFT part 1](https://docs.avax.network/build/tutorials/smart-digital-assets/creating-a-nft-part-1)_",
       "signature": "avm.createNFTAsset({\n    name: string,\n    symbol: string,\n    minterSets: []{\n        minters: []string,\n        threshold: int\n    },\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    assetID: string,\n    changeAddr: string\n}",
       "formals": {
         "name": "string",
@@ -269,7 +269,7 @@
     {
       "id": "avm.mintNFT",
       "endpoint": "/ext/bc/X",
-      "description": "Mint non-fungible tokens which were created with `avm.createNFTAsset`.",
+      "description": "Mint non-fungible tokens which were created with [`avm.createNFTAsset`](#avm-createnftasset).\n\n_Related documentation: [Creating a NFT part 1](https://docs.avax.network/build/tutorials/smart-digital-assets/creating-a-nft-part-1)_",
       "signature": "avm.mintNFT({\n    assetID: string,\n    payload: string,\n    to: string,\n    encoding: string, (optional)\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "assetID": "string",
@@ -299,16 +299,54 @@
         "`payload` is an arbitrary payload of up to 1024 bytes. Its encoding format is specified by the `encoding` argument.",
         "`from` are the addresses that you want to use for this operation. If omitted, uses any of your addresses as needed.",
         "`changeAddr` is the address any change will be sent to. If omitted, change is sent to one of the addresses controlled by the user.",
-        "`username` is the user that pays the transaction fee. `username` must hold keys giving it permission to mint more of this asset. That is, it must control at least *threshold* keys for one of the minter sets.",
-        "`txID` is this transaction's ID.",
+        "`username` is the user that pays the transaction fee. `username` must hold keys giving it permission to mint more of this asset. That is, it must control at least _threshold_ keys for one of the minter sets.",
+        "`txID` is this transaction’s ID.",
         "`changeAddr` in the result is the address where any change was sent.",
-        "`encoding` is the encoding format to use for the payload argument. Can be either \"cb58\" or \"hex\". Defaults to \"cb58\"."
+        "`encoding` is the encoding format to use for the payload argument. Can be either “cb58” or “hex”. Defaults to “cb58”."
+      ]
+    },
+    {
+      "id": "avm.export",
+      "endpoint": "/ext/bc/X",
+      "description": "Send a non-AVAX from the X-Chain to the P-Chain or C-Chain. After calling this method, you must call [`avax.import`](contract-chain-c-chain-api#avax-import) on the C-Chain to complete the transfer.",
+      "signature": "avm.export({\n    to: string,\n    amount: int,\n    assetID: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
+      "formals": {
+        "to": "string",
+        "amount": "int",
+        "assetID": "string",
+        "from": "?[]string",
+        "changeAddr": "?string",
+        "username": "string",
+        "password": "string"
+      },
+      "returns": {
+        "txID": "string",
+        "changeAddr": "string"
+      },
+      "example": {
+        "to": "C-avax1q9c6ltuxpsqz7ul8j0h0d0ha439qt70sr3x2m0",
+        "amount": 500,
+        "assetID": "2YmsQfMaCczE4mLG1DPYUnRURNGfhjj4qrqnLRR3LmZ3GxDWPt",
+        "from": ["X-avax1s65kep4smpr9cnf6uh9cuuud4ndm2z4jguj3gp"],
+        "changeAddr": "X-avax1turszjwn05lflpewurw96rfrd3h6x8flgs5uf8",
+        "username": "myUsername",
+        "password": "myPassword"
+      },
+      "notes": [
+        "`to` is the P-Chain or C-Chain address the asset is sent to.",
+        "`amount` is the amount of the asset to send.",
+        "`assetID` is the asset id of the asset which is sent.",
+        "`from` are the addresses that you want to use for this operation. If omitted, uses any of your addresses as needed.",
+        "`changeAddr` is the address any change will be sent to. If omitted, change is sent to one of the addresses controlled by the user.",
+        "The asset is sent from addresses controlled by `username`",
+        "`txID` is this transaction’s ID.",
+        "`changeAddr` in the result is the address where any change was sent."
       ]
     },
     {
       "id": "avm.exportAVAX",
       "endpoint": "/ext/bc/X",
-      "description": "Send AVAX from the X-Chain to another chain. After calling this method, you must call `importAVAX` on the other chain to complete the transfer.",
+      "description": "Send AVAX from the X-Chain to another chain. After calling this method, you must call `import` on the other chain to complete the transfer.",
       "signature": "avm.exportAVAX({\n    to: string,\n    amount: int,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "to": "string",
@@ -336,14 +374,14 @@
         "`from` are the addresses that you want to use for this operation. If omitted, uses any of your addresses as needed.",
         "`changeAddr` is the address any change will be sent to. If omitted, change is sent to one of the addresses controlled by the user.",
         "The AVAX is sent from addresses controlled by `username`",
-        "`txID` is this transaction's ID.",
+        "`txID` is this transaction’s ID.",
         "`changeAddr` in the result is the address where any change was sent."
       ]
     },
     {
       "id": "avm.exportKey",
       "endpoint": "/ext/bc/X",
-      "description": "Get the private key that controls a given address. The returned private key can be added to a user with `avm.importKey`.",
+      "description": "Get the private key that controls a given address. The returned private key can be added to a user with [`avm.importKey`](#avm-importkey).",
       "signature": "avm.exportKey({\n    username: string,\n    password: string,\n    address: string\n}) -> {\n    privateKey: string\n}",
       "formals": {
         "username": "string",
@@ -395,8 +433,8 @@
         "assetID": "ZiKfqRXCZgHLgZ4rxGU9Qbycdzuq5DRY4tdSNS9ku8kcNxNLD"
       },
       "notes": [
-        "`name` is the asset's human-readable, not necessarily unique name.",
-        "`symbol` is the asset's symbol.",
+        "`name` is the asset’s human-readable, not necessarily unique name.",
+        "`symbol` is the asset’s symbol.",
         "`denomination` determines how balances of this asset are displayed by user interfaces. If denomination is 0, 100 units of this asset are displayed as 100. If denomination is 1, 100 units of this asset are displayed as 10.0. If denomination is 2, 100 units of this asset are displays as .100, etc."
       ]
     },
@@ -420,7 +458,7 @@
     {
       "id": "avm.getTx",
       "endpoint": "/ext/bc/X",
-      "description": "Returns the specified transaction. The `encoding` parameter sets the format of the returned transaction. Can be either \"cb58\" or \"hex\". Defaults to \"cb58\".",
+      "description": "Returns the specified transaction. The `encoding` parameter sets the format of the returned transaction. Can be either “cb58” or “hex”. Defaults to “cb58”.",
       "signature": "avm.getTx({\n    txID: string,\n    encoding: string (optional)\n}) -> {\n    tx: string,\n    encoding: string\n}",
       "formals": {
         "txID": "string",
@@ -453,7 +491,7 @@
         "`Accepted`: The transaction is (or will be) accepted by every node",
         "`Processing`: The transaction is being voted on by this node",
         "`Rejected`: The transaction will never be accepted by any node in the network",
-        "`Unknown`: The transaction hasn't been seen by this node"
+        "`Unknown`: The transaction hasn’t been seen by this node"
       ]
     },
     {
@@ -488,13 +526,39 @@
         "If `startIndex` is omitted, will fetch all UTXOs up to `limit`.",
         "When using pagination (ie when `startIndex` is provided), UTXOs are not guaranteed to be unique across multiple calls. That is, a UTXO may appear in the result of the first call, and then again in the second call.",
         "When using pagination, consistency is not guaranteed across multiple calls. That is, the UTXO set of the addresses may have changed between calls.",
-        "`encoding` sets the format for the returned UTXOs. Can be either \"cb58\" or \"hex\". Defaults to \"cb58\"."
+        "`encoding` sets the format for the returned UTXOs. Can be either “cb58” or “hex”. Defaults to “cb58”."
+      ]
+    },
+    {
+      "id": "avm.import",
+      "endpoint": "/ext/bc/X",
+      "description": "Finalize a transfer of AVAX from the P-Chain or C-Chain to the X-Chain. Before this method is called, you must call the P-Chain’s [`platform.exportAVAX`](platform-chain-p-chain-api#platform-exportavax) or C-Chain’s [`avax.export`](contract-chain-c-chain-api#avax-export) method to initiate the transfer.",
+      "signature": "avm.import({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "formals": {
+        "to": "string",
+        "sourceChain": "string",
+        "username": "string",
+        "password": "string"
+      },
+      "returns": {
+        "txID": "string"
+      },
+      "example": {
+        "to": "X-avax1s7aygrkrtxflmrlyadlhqu70a6f4a4n8l2tru8",
+        "sourceChain": "C",
+        "username": "myUsername",
+        "password": "myPassword"
+      },
+      "notes": [
+        "`to` is the address the AVAX is sent to. This must be the same as the `to` argument in the corresponding call to the P-Chain’s `exportAVAX` or C-Chain's `export`.",
+        "`sourceChain` is the ID or alias of the chain the AVAX is being imported from. To import funds from the C-Chain, use `\"C\"`.",
+        "`username` is the user that controls `to`."
       ]
     },
     {
       "id": "avm.importAVAX",
       "endpoint": "/ext/bc/X",
-      "description": "Finalize a transfer of AVAX from the P-Chain to the X-Chain. Before this method is called, you must call the P-Chain's [`exportAVAX`](./platform.md#platformexportavax) method to initiate the transfer.",
+      "description": "Finalize a transfer of AVAX from the P-Chain to the X-Chain. Before this method is called, you must call the P-Chain’s [`platform.exportAVAX`](platform-chain-p-chain-api#platform-exportavax) method to initiate the transfer.",
       "signature": "avm.importAVAX({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
@@ -512,7 +576,7 @@
         "password": "myPassword"
       },
       "notes": [
-        "`to` is the address the AVAX is sent to. This must be the same as the `to` argument in the corresponding call to the P-Chain's `exportAVAX`.",
+        "`to` is the address the AVAX is sent to. This must be the same as the `to` argument in the corresponding call to the P-Chain’s `exportAVAX`.",
         "`sourceChain` is the ID or alias of the chain the AVAX is being imported from. To import funds from the P-Chain, use `\"P\"`.",
         "`username` is the user that controls `to`."
       ]
@@ -536,13 +600,13 @@
         "privateKey": "PrivateKey-2w4XiXxPfQK4TypYqnohRL8DRNTz9cGiGmwQ1zmgEqD9c9KWLq"
       },
       "notes": [
-        "Add `privateKey` to `username`'s set of private keys. `address` is the address `username` now controls with the private key."
+        "Add `privateKey` to `username`‘s set of private keys. `address` is the address `username` now controls with the private key."
       ]
     },
     {
       "id": "avm.issueTx",
       "endpoint": "/ext/bc/X",
-      "description": "Send a signed transaction to the network. `encoding` specifies the format of the signed transaction. Can be either \"cb58\" or \"hex\". Defaults to \"cb58\".",
+      "description": "Send a signed transaction to the network. `encoding` specifies the format of the signed transaction. Can be either “cb58” or “hex”. Defaults to “cb58”.",
       "signature": "avm.issueTx({\n    tx: string,\n    encoding: string (optional)\n}) -> {\n    txID: string,\n    encoding: string\n}",
       "formals": {
         "tx": "string",
@@ -615,7 +679,7 @@
     {
       "id": "avm.sendMultiple",
       "endpoint": "/ext/bc/X",
-      "description": "Sends an amount of assetID to an array of specified addresses from a list of owned of addresses.",
+      "description": "Sends an amount of assetID to an array of specified addresses from a list of owned addresses.",
       "signature": "avm.sendMultiple({\n    outputs: []{\n      assetID: string,\n      amount: int,\n      to: string\n    },\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    memo: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "outputs": "[]object",

@@ -5,7 +5,7 @@
 module.exports = {
   admin: require("./admin"),
   auth: require("./auth"),
-  avm: require("./avm"),
+  exchange: require("./exchange"),
   health: require("./health"),
   info: require("./info"),
   ipc: require("./ipc"),
