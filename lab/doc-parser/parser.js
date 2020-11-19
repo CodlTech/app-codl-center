@@ -13,25 +13,27 @@ const parseApi = require("./parse-api")
 program.version(pkg.version)
 
 /* Parse Method */
-program
-  .command("method method")
-  .description("Parse METHOD specifications")
-  .alias("m")
-  .action(({ args }) => {
-    const method = args[0]
-    if (!method) usageError("Missing argument")
+// Broken since API files are not named after API id.
+//
+// program
+//   .command("method method")
+//   .description("Parse METHOD specifications")
+//   .alias("m")
+//   .action(({ args }) => {
+//     const method = args[0]
+//     if (!method) usageError("Missing argument")
 
-    const apiId = method.split(".")[0]
-    if (!apiId) usageError("Invalid method id (no API namespace)")
+//     const apiId = method.split(".")[0]
+//     if (!apiId) usageError("Invalid method id (no API namespace)")
 
-    const doc = getApiDocumentation(apiId)
-    const apiData = parseApi(apiId, doc)
-    const methodSpecs = apiData.find((x) => x.id === method)
-    if (!methodSpecs) usageError(`Can't find method ${method}`)
+//     const doc = getApiDocumentation(apiId)
+//     const apiData = parseApi(apiId, doc)
+//     const methodSpecs = apiData.find((x) => x.id === method)
+//     if (!methodSpecs) usageError(`Can't find method ${method}`)
 
-    // eslint-disable-next-line no-console
-    console.log(methodSpecs)
-  })
+//     // eslint-disable-next-line no-console
+//     console.log(methodSpecs)
+//   })
 
 /* Parse API */
 program
@@ -39,10 +41,11 @@ program
   .description("Parse API specifications")
   .alias("a")
   .action(({ args }) => {
-    const apiId = args[0]
+    const filename = args[0]
     if (!apiId) usageError("Missing argument")
 
-    const doc = getApiDocumentation(apiId)
+    const doc = getApiDocumentation(filename)
+    const apiId = filename.replace(/-.*/, "")
     const specs = parseApi(apiId, doc)
 
     // eslint-disable-next-line no-console
@@ -72,7 +75,8 @@ program
 
     const multiple = args.length > 1
     args.forEach((file) => {
-      const apiId = file.replace(/(.*\/)?([^/]+).md/, "$2")
+      const filename = file.replace(/(.*\/)?([^/]+.md)/, "$2")
+      const apiId = filename.replace(/-.*/, "")
       const doc = sh.cat(file)
       const apiData = parseApi(apiId, doc)
       if (!apiData || !apiData.methods.length) {
@@ -113,7 +117,7 @@ function getApisDocumentationDirectory () {
     throw new Error("Can't find 'avalanche-docs' in current directory.")
   }
 
-  const dir = "avalanche-docs/docs/v1.0/en/api"
+  const dir = "avalanche-docs/build/avalanchego-apis"
   if (!sh.test("-d", dir)) {
     throw new Error("Can't find api documentation in 'avalanche-docs'.")
   }

@@ -3,24 +3,29 @@
  * parseMethod
  * */
 const { xassoc } = require("@kisbox/helpers")
+const { capitalize } = require("../../src/helpers/string")
 
 /* Constants */
 const avaDocs = "https://docs.avax.network"
-const avaReferences = `${avaDocs}/build/references`
-const avaTutorials = `${avaDocs}/build/tutorials/smart-digital-assets`
 
 /* Definition */
 
 function parseApi (id, doc) {
-  const sections = splitByHeading("## ", doc)
+  if (id === "deprecated") return
+
+  const fixedDoc = doc.replace(/^---\n.*\n---/, "").replace(/\\([()])/g, "$1")
+  const sections = splitByHeading("## ", fixedDoc)
   const methodsSection = pickMethodsSection(sections)
   if (!methodsSection) return
 
   const name = pickGroup(sections[0], /# *([^\n]*)/)
   const description = sections[0]
-    .replace(/^#[^\n]*\n\n/, "")
+    .replace(/#[^\n]*\n\n/, "")
     .replace(/\n/g, "\\n")
-    .replace(/\.\.\/references\/([^\s]*)\.md/, `${avaReferences}/$1`)
+    // (../../avadocs-link[.md])
+    .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
+    // (../avadocs-link[.md])
+    .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
 
   const methodsDoc = splitByHeading("### ", methodsSection).slice(1)
   const methods = methodsDoc.map(parseMethod)
@@ -55,7 +60,7 @@ function parseMethod (str) {
 
   // Sometimes, there's another section before signature (e.g: avm.buildGenesis)
   for (let i = 2; i < sectionsAndTitles.length; i++) {
-    if (sectionsAndTitles[i].match("#### Signature")) break
+    if (sectionsAndTitles[i].match(/#### \*\*Signature\*\*/)) break
     sectionsAndTitles[i] = "#" // Gets filtered out just after
   }
 
@@ -125,9 +130,18 @@ fieldParser.endpoint = function (doc) {
 fieldParser.description = function (doc) {
   const escaped = doc.description
     .replace(/\n\n/g, "\\n\\n")
-    // Special-handling for a couple of links
-    .replace(/\.\.\/tutorials\/(.*)\.md/, `${avaTutorials}/creating-a-$1`)
-    .replace("../staking.md", `${avaDocs}/learn/platform-overview/staking`)
+    .replace(/{% page-ref page="(.*)" %}/, (_, url) => {
+      const pagename = pickGroup(url, /\/([^/.]+)(.md)?$/, "$1")
+      const title = capitalize(pagename)
+        .replace(/-/g, " ")
+        .replace("nft", "NFT")
+      return `_Related documentation: [${title}](${url})_`
+    })
+    // (../../avadocs-link[.md])
+    .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
+    // (../avadocs-link[.md])
+    .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
+
   return inlineString(escaped)
 }
 
@@ -135,7 +149,7 @@ fieldParser.signature = function (doc) {
   return (
     trimTrailingSeparators(doc.signature)
       // Trim markdown syntax
-      .replace(/^```go.*\n/, "")
+      .replace(/^```(text|cpp).*\n/, "")
       .replace(/\n```$/, "")
       // Normalize indentation
       .replace(/\n {4}{\s*([^>]*)\s*},?\s*\) ->/, (_, group1) => {
