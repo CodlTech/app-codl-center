@@ -96,12 +96,7 @@ proto.$define("actuals", ["example", "arguments"], (the) => {
   const actuals = new LiveObject()
   actuals.$trap(the.arguments)
   actuals.$pick(the.example, the.arguments)
-
-  xeach(the.arguments, (key) => {
-    if (!(key in the.shared)) return
-    actuals.$import(the.shared, key)
-  })
-
+  actuals.$import(the.shared, the.arguments)
   return actuals
 })
 
