@@ -55,8 +55,8 @@ class MethodSnippets extends View {
 
     /* Imports */
     this.method = method
-    this.$pick(method, ["id", "signature", "pathShort", "pathLong", "actuals"])
-    this.$import(method, ["response"])
+    this.$pick(method, ["id", "signature", "actuals"])
+    this.$import(method, ["path", "response"])
 
     /* Events */
     this.actuals.$on("$change", () => {
@@ -136,14 +136,18 @@ proto.$define("curlActuals", ["actuals"], (the) => {
   return indented
 })
 
-proto.$define("curlCode", ["id", "curlActuals", "pathShort"], (the) => {
+proto.$define("curlPath", ["path"], (the) => {
+  return the.path.replace("http://", "")
+})
+
+proto.$define("curlCode", ["id", "curlActuals", "curlPath"], (the) => {
   return `\
 curl -X POST --data '{
   "jsonrpc": "2.0",
   "id"     : 1,
   "method" : "${the.id}",
   "params" : ${the.curlActuals}
-}' -H 'content-type:application/json;' ${the.pathShort}
+}' -H 'content-type:application/json;' ${the.curlPath}
 `
 })
 
@@ -152,9 +156,9 @@ proto.$define("axiosActuals", ["curlActuals"], (the) => {
   return unquoted
 })
 
-proto.$define("axiosCode", ["pathLong", "id", "axiosActuals"], (the) => {
+proto.$define("axiosCode", ["path", "id", "axiosActuals"], (the) => {
   return `\
-const path = "${the.pathLong}"
+const path = "${the.path}"
 const response = await axios.post(path, {
   jsonrpc: "2.0",
   id: 1,
@@ -179,9 +183,9 @@ proto.$on("tabId", function () {
   this.scrollUpCode()
 })
 
-proto.$on("actuals", function () {
-  const actualsAreVisible = this.tabId === "curl" || this.tabId === "axios"
-  if (actualsAreVisible) return
+proto.$on(["curlCode", "axiosCode"], function () {
+  const isCodeVisible = this.tabId === "curl" || this.tabId === "axios"
+  if (isCodeVisible) return
 
   this.selectTab(2)
 })

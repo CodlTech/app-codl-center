@@ -12,6 +12,7 @@ class MethodForm extends View {
     super(`
 <form class="MethodForm flex two-500 three-800" onsubmit="return false">
   ...%inputs
+  %nodeInput
   <button hidden onclick=%checkAndSubmit>
 </form>
     `)
@@ -19,6 +20,9 @@ class MethodForm extends View {
     /* Imports */
     this.method = method
     this.$pick(method, ["formals", "actuals"])
+
+    /* Components */
+    this.nodeInput = MethodForm.Input.forParam(this.method, "node", "string")
   }
 
   checkAndSubmit (event) {

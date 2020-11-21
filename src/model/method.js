@@ -12,7 +12,8 @@ const axios = require("axios")
 
 const SHARED = {
   username: "bob",
-  password: "creme fraiche"
+  password: "creme fraiche",
+  node: "http://127.0.0.1:9650"
 }
 
 /* Definition */
@@ -26,11 +27,11 @@ class Method extends LiveObject {
     this.returns = {}
     this.example = {}
     this.notes = []
-    this.node = "127.0.0.1:9650"
     this.response = undefined
     this.shared = Method.shared
 
     /* Imports */
+    this.$import(this.shared, ["node"])
     this.$pick(params, [
       "id",
       "endpoint",
@@ -45,7 +46,7 @@ class Method extends LiveObject {
   }
 
   run () {
-    this.response = axios.post(this.pathLong, {
+    this.response = axios.post(this.path, {
       jsonrpc: "2.0",
       id: 1,
       method: this.id,
@@ -65,23 +66,20 @@ Method.prototype.$on({
   response () {
     if (type(this.response) !== "object") return
     if (this.response.data.error) return
+
     this.shared.$pick(this.actuals, ["username", "password"])
+    this.shared.$pick(this, ["node"])
   }
 })
 
 /* Computations */
 const proto = Method.prototype
 
-proto.$define("pathShort", ["node", "endpoint"], (the) => {
-  return `${the.node}${the.endpoint}`
-})
+proto.$define("path", ["node", "endpoint"], (the) => {
+  if (!the.node) return the.endpoint.substr(1)
 
-proto.$define("pathLong", ["pathShort"], (the) => {
-  if (the.pathShort.match(/^http(s):/)) {
-    return the.pathShort
-  } else {
-    return `http://${the.pathShort}`
-  }
+  const defaultProtocol = the.node.match(/^http(s)?:\/\//) ? "" : "https://"
+  return `${defaultProtocol}${the.node}${the.endpoint}`
 })
 
 proto.$define("arguments", ["formals"], (the) => {

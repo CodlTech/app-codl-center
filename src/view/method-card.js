@@ -25,7 +25,7 @@ class MethodCard extends View {
   <p>%prettyDescription</p>
   %snippets
 
-  <footer hidden=%noFormals>
+  <footer>
     %form
     <ul hidden=%noNotes>
       ...%notesLi
