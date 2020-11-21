@@ -4,7 +4,6 @@
  * */
 const { LiveObject } = require("@kisbox/model")
 const { type } = require("@kisbox/utils")
-const { xeach } = require("@kisbox/helpers")
 
 const axios = require("axios")
 
@@ -13,7 +12,8 @@ const axios = require("axios")
 const SHARED = {
   username: "bob",
   password: "creme fraiche",
-  node: "http://127.0.0.1:9650"
+  node: "http://127.0.0.1:9650",
+  chain: null
 }
 
 /* Definition */
@@ -23,15 +23,15 @@ class Method extends LiveObject {
     super()
 
     /* Defaults */
-    this.formals = {}
-    this.returns = {}
+    this.chain = null
     this.example = {}
+    this.formals = {}
     this.notes = []
     this.response = undefined
+    this.returns = {}
     this.shared = Method.shared
 
     /* Imports */
-    this.$import(this.shared, ["node"])
     this.$pick(params, [
       "id",
       "endpoint",
@@ -43,6 +43,23 @@ class Method extends LiveObject {
       "notes",
       "shared"
     ])
+    this.$import(this.shared, ["node"])
+
+    /* Computations */
+    this.setupEndpoint()
+  }
+
+  setupEndpoint () {
+    if (!this.endpoint) return
+
+    const rgxBcEndpoint = /^\/ext\/bc\/(?<chain>\w+)(?<tail>\/.*)?/
+    const matched = this.endpoint.match(rgxBcEndpoint)
+    if (!matched) return
+    if (matched.groups.chain === "P") return
+
+    this.$import(this.shared, ["chain"])
+    this.chain = matched.groups.chain
+    this.endpointTail = matched.groups.tail || ""
   }
 
   run () {
@@ -69,11 +86,19 @@ Method.prototype.$on({
 
     this.shared.$pick(this.actuals, ["username", "password"])
     this.shared.$pick(this, ["node"])
+
+    if (this.chain) {
+      this.shared.$pick(this, ["chain"])
+    }
   }
 })
 
 /* Computations */
 const proto = Method.prototype
+
+proto.$define("endpoint", ["chain", "endpointTail"], (the) => {
+  return `/ext/bc/${the.chain || "?"}${the.endpointTail}`
+})
 
 proto.$define("path", ["node", "endpoint"], (the) => {
   if (!the.node) return the.endpoint.substr(1)

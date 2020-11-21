@@ -13,6 +13,7 @@ class MethodForm extends View {
 <form class="MethodForm flex two-500 three-800" onsubmit="return false">
   ...%inputs
   %nodeInput
+  %chainInput
   <button hidden onclick=%checkAndSubmit>
 </form>
     `)
@@ -23,6 +24,13 @@ class MethodForm extends View {
 
     /* Components */
     this.nodeInput = MethodForm.Input.forParam(this.method, "node", "string")
+    if (method.chain) {
+      this.chainInput = MethodForm.Input.forParam(
+        this.method,
+        "chain",
+        "string"
+      )
+    }
   }
 
   checkAndSubmit (event) {
