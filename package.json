@@ -39,9 +39,9 @@
     "tag-main": "git tag -s \"$version\" -m \"$message\"",
     "tag-all": "[ \"$version\" -a \"$message\" ] && npm run tag-web && npm run tag-main",
     "tag-release": "export version message=\"Release $version\" && npm run tag-all",
-    "push-release": "cd web && git push && git push --tags && cd .. && git push && git push --tags",
+    "push-release": "cd web && git push --follow-tags && cd .. && git push --follow-tags",
     "make-release": "npm update && npm run build && npm run commit-release",
-    "publish-release": "npm run check && npm run tag-release"
+    "publish-release": "npm run check && npm run tag-release && npm run push-release"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
