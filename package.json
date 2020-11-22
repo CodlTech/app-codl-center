@@ -1,6 +1,6 @@
 {
   "name": "codl.center",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Codl.center is an interactive API reference for the Avalanche-go node",
   "author": "MisterTicot",
   "homepage": "https://codl.center",
@@ -44,9 +44,9 @@
     "publish-release": "npm run check && npm run tag-release && npm run push-release"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.7",
     "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
     "@kisbox/browserslist-config": "^1.0.0-beta.17",
     "@kisbox/service-worker": "^1.0.0-beta.10",
     "autoprefixer": "^10.0.2",
@@ -54,12 +54,12 @@
     "babel-loader": "^8.2.1",
     "commander": "^6.2.0",
     "cssnano": "^4.1.10",
-    "eslint": "^7.13.0",
+    "eslint": "^7.14.0",
     "live-server": "^1.2.1",
     "node-sass": "^5.0.0",
-    "postcss": "^8.1.7",
+    "postcss": "^8.1.9",
     "postcss-cli": "^8.3.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.2.0",
     "raw-loader": "^4.0.2",
     "shelljs": "^0.8.4",
     "webpack": "^4.44.2",
@@ -68,14 +68,14 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@cosmic-plus/assets": "^1.6.0",
-    "@kisbox/browser": "^1.0.0-beta.17",
+    "@kisbox/browser": "^1.0.0-beta.18",
     "@kisbox/helpers": "^1.0.0-beta.17",
     "@kisbox/model": "^1.0.0-beta.17",
     "@kisbox/utils": "^1.0.0-beta.17",
     "axios": "^0.21.0",
     "core-js": "^3.7.0",
     "feather-icons": "^4.28.0",
-    "marked": "^1.2.4",
+    "marked": "^1.2.5",
     "normalize.css": "^8.0.1",
     "picnic": "^6.5.3"
   }
