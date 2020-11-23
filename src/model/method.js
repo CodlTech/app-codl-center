@@ -13,7 +13,7 @@ const SHARED = {
   username: "bob",
   password: "creme fraiche",
   node: "http://127.0.0.1:9650",
-  chain: null
+  chain: "X"
 }
 
 /* Definition */
