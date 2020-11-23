@@ -19,13 +19,10 @@ function parseApi (id, doc) {
   if (!methodsSection) return
 
   const name = pickGroup(sections[0], /# *([^\n]*)/)
-  const description = sections[0]
+  const descriptionBase = sections[0]
     .replace(/#[^\n]*\n\n/, "")
     .replace(/\n/g, "\\n")
-    // (../../avadocs-link[.md])
-    .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
-    // (../avadocs-link[.md])
-    .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
+  const description = rewriteDocLinks(descriptionBase)
 
   const methodsDoc = splitByHeading("### ", methodsSection).slice(1)
   const methods = methodsDoc.map(parseMethod)
@@ -128,21 +125,9 @@ fieldParser.endpoint = function (doc) {
 }
 
 fieldParser.description = function (doc) {
-  const escaped = doc.description
-    .replace(/\n\n/g, "\\n\\n")
-    .replace(/{% page-ref page="(.*)" %}/, (_, url) => {
-      const pagename = pickGroup(url, /\/([^/.]+)(.md)?$/, "$1")
-      const title = capitalize(pagename)
-        .replace(/-/g, " ")
-        .replace("nft", "NFT")
-      return `_Related documentation: [${title}](${url})_`
-    })
-    // (../../avadocs-link[.md])
-    .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
-    // (../avadocs-link[.md])
-    .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
-
-  return inlineString(escaped)
+  const escaped = doc.description.replace(/\n\n/g, "\\n\\n")
+  const rewrited = rewriteDocLinks(escaped)
+  return inlineString(rewrited)
 }
 
 fieldParser.signature = function (doc) {
@@ -233,7 +218,33 @@ fieldParser.notes = function (doc) {
   return notesInlined
 }
 
-/* Helpers */
+/* Helpers: specialized */
+
+function rewriteDocLinks (markdown) {
+  return (
+    markdown
+      // Refs
+      .replace(/{% page-ref page="(.*)" %}/, (_, url) => {
+        const pagename = pickGroup(url, /\/([^/.]+)(.md)?$/, "$1")
+        const title = capitalize(pagename)
+          .replace(/-/g, " ")
+          .replace("nft", "NFT")
+        return `_Related documentation: [${title}](${url})_`
+      })
+      // Embeds
+      .replace(/{% embed url="(.*)" %}/, (_, url) => {
+        const domain = pickGroup(url, /:\/\/(?:www.)?([^/]+)/)
+        const domainPretty = capitalize(domain)
+        return `_External ressource: [${domainPretty}](${url})_`
+      })
+      // (../../avadocs-link[.md])
+      .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
+      // (../avadocs-link[.md])
+      .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
+  )
+}
+
+/* Helpers: generic */
 
 function splitByHeading (heading, string) {
   const regexp = new RegExp(`\n${heading}`)

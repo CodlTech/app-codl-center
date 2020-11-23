@@ -46,6 +46,15 @@
       }
     },
     {
+      "id": "info.getNodeIP",
+      "endpoint": "/ext/info",
+      "description": "Get the IP of this node.",
+      "signature": "info.getNodeIP() -> {\n    ip: string\n}",
+      "returns": {
+        "ip": "string"
+      }
+    },
+    {
       "id": "info.getNodeVersion",
       "endpoint": "/ext/info",
       "description": "Get the version of this node.",

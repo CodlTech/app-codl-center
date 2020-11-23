@@ -1,7 +1,7 @@
 {
   "id": "exchange",
   "name": "Exchange Chain (X-Chain) API",
-  "description": "\n\nThe [X-Chain](https://docs.avax.network/learn/platform-overview/#exchange-chain-x-chain), Avalanche’s native platform for creating and trading assets, is an instance of the Avalanche Virtual Machine (AVM). This API allows clients to create and trade assets on the X-Chain and other instances of the AVM.\n",
+  "description": "\n\nThe [X-Chain](https://docs.avax.network/learn/platform-overview/#exchange-chain-x-chain), Avalanche’s native platform for creating and trading assets, is an instance of the Avalanche Virtual Machine (AVM). This API allows clients to create and trade assets on the X-Chain and other instances of the AVM.\n\n_External ressource: [Youtube.com](https://www.youtube.com/watch?v=rD-IOd1nvFo)_\n",
   "methods": [
     {
       "id": "avm.buildGenesis",
@@ -381,7 +381,7 @@
     {
       "id": "avm.exportKey",
       "endpoint": "/ext/bc/X",
-      "description": "Get the private key that controls a given address. The returned private key can be added to a user with [`avm.importKey`](#avm-importkey).",
+      "description": "Get the private key that controls a given address.   The returned private key can be added to a user with [`avm.importKey`](#avm-importkey).",
       "signature": "avm.exportKey({\n    username: string,\n    password: string,\n    address: string\n}) -> {\n    privateKey: string\n}",
       "formals": {
         "username": "string",
