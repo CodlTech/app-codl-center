@@ -47,12 +47,23 @@ class Api extends LiveObject {
 /* Class-wide values */
 
 Api.globalParams = {
+  assetID: "AVAX",
+  encoding: "cb58",
+
   username: "bob",
   password: "creme fraiche",
   node: "http://127.0.0.1:9650"
 }
 
 Api.apiParams = {
+  address: undefined,
+  blockchainID: "11111111111111111111111111111111LpoYY",
+  changeAddr: null,
+  from: null,
+  nodeID: undefined,
+  sourceChain: undefined,
+  subnetID: null,
+
   chain: undefined
 }
 
