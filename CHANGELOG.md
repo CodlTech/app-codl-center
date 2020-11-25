@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 This project adheres to **[Semantic
 Versioning](https://semver.org/spec/v2.0.0.html)**.
 
+## 1.2.0 - 2020-11-25
+
+### Added
+
+- UI: Add avax.\* methods for the 'Contract' API.
+
+### Changed
+
+- Data: Merge latest documentation. (Notably adds `info.getNodeIP`)
+- UI: Improve method parameters sharing. Those parameters are synced across all
+  methods (e.g: `username`, `node`, ...), or in some cases across methods of the
+  same API (e.g: `changeAddr`, `subnetID`, ...).
+
+### Fixed
+
+- UI: Fix default 'chain' parameter.
+
 ## 1.1.0 - 2020-11-21
 
 ### Added
