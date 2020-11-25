@@ -4,18 +4,36 @@
  * */
 const { LiveObject } = require("@kisbox/model")
 const { wrap } = require("@kisbox/helpers")
+const $cache = require("../lib/cache")
 
 const Method = require("./method")
 
 /* Definition */
+
 class Api extends LiveObject {
   static fromData (data) {
     const params = wrap(data, {
       methods: data.methods.map((x) => new Method(x))
     })
+    params.methods.forEach((method) => {
+      method.shareParams(Api.getGlobalParams())
+      method.shareParams(Api.getApiParams(params.id))
+    })
     sortMethods(params.methods)
 
     return new Api(params)
+  }
+
+  static getGlobalParams () {
+    return $cache(this, "globalParams", () => {
+      return toLiveObject(Api.globalParams)
+    })
+  }
+
+  static getApiParams (api) {
+    return $cache(this, `apiParams:${api}`, () => {
+      return toLiveObject(Api.apiParams)
+    })
   }
 
   constructor (params) {
@@ -24,6 +42,18 @@ class Api extends LiveObject {
     /* Imports */
     this.$pick(params, ["id", "name", "description", "methods"])
   }
+}
+
+/* Class-wide values */
+
+Api.globalParams = {
+  username: "bob",
+  password: "creme fraiche",
+  node: "http://127.0.0.1:9650"
+}
+
+Api.apiParams = {
+  chain: undefined
 }
 
 /* Computations */
@@ -37,7 +67,7 @@ proto.$define("methodsPrivate", ["methods"], function () {
   return this.methods.filter((x) => x.isPrivate)
 })
 
-/* Helpers */
+/* Helpers: specialized */
 
 function sortMethods (methods) {
   methods.sort((a, b) => {
@@ -47,6 +77,14 @@ function sortMethods (methods) {
       return a.isPrivate ? 1 : -1
     }
   })
+}
+
+/* Helpers: generic */
+
+function toLiveObject (params) {
+  const live = new LiveObject()
+  Object.assign(live, params)
+  return live
 }
 
 /* Export */

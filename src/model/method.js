@@ -3,18 +3,9 @@
  * Method
  * */
 const { LiveObject } = require("@kisbox/model")
-const { type } = require("@kisbox/utils")
+const { xeach } = require("@kisbox/helpers")
 
 const axios = require("axios")
-
-/* Configuration */
-
-const SHARED = {
-  username: "bob",
-  password: "creme fraiche",
-  node: "http://127.0.0.1:9650",
-  chain: "X"
-}
 
 /* Definition */
 
@@ -23,13 +14,12 @@ class Method extends LiveObject {
     super()
 
     /* Defaults */
-    this.chain = null
     this.example = {}
     this.formals = {}
+    this.node = "http://127.0.0.1:9650"
     this.notes = []
     this.response = undefined
     this.returns = {}
-    this.shared = Method.shared
 
     /* Imports */
     this.$pick(params, [
@@ -40,10 +30,9 @@ class Method extends LiveObject {
       "formals",
       "returns",
       "example",
-      "notes",
-      "shared"
+      "node",
+      "notes"
     ])
-    this.$import(this.shared, ["node"])
 
     /* Computations */
     this.setupEndpoint()
@@ -57,7 +46,6 @@ class Method extends LiveObject {
     if (!matched) return
     if (matched.groups.chain === "P") return
 
-    this.$import(this.shared, ["chain"])
     this.chain = matched.groups.chain
     this.endpointTail = matched.groups.tail || ""
   }
@@ -70,28 +58,24 @@ class Method extends LiveObject {
       params: this.actuals
     })
   }
-}
 
-/* Class-wide Shared State */
+  shareParams (shared) {
+    xeach(shared, (value, key) => {
+      if (value !== undefined) return
+      shared[key] = key in this.formals ? this.actuals[key] : this[key]
+    })
 
-Method.shared = new LiveObject()
-Object.assign(Method.shared, SHARED)
-Method.shared.$trap(Object.keys(SHARED))
+    this.actuals.$import(shared, this.arguments)
+    shared.$import(this.actuals, Object.keys(shared))
 
-/* Events */
-Method.prototype.$on({
-  response () {
-    if (type(this.response) !== "object") return
-    if (this.response.data.error) return
-
-    this.shared.$pick(this.actuals, ["username", "password"])
-    this.shared.$pick(this, ["node"])
-
-    if (this.chain) {
-      this.shared.$pick(this, ["chain"])
+    if ("node" in shared) {
+      this.$link(shared, "node")
+    }
+    if ("chain" in shared && this.chain) {
+      this.$link(shared, "chain")
     }
   }
-})
+}
 
 /* Computations */
 const proto = Method.prototype
@@ -121,7 +105,6 @@ proto.$define("actuals", ["example", "arguments"], (the) => {
   const actuals = new LiveObject()
   actuals.$trap(the.arguments)
   actuals.$pick(the.example, the.arguments)
-  actuals.$import(the.shared, the.arguments)
   return actuals
 })
 
