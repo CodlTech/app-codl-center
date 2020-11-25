@@ -1,0 +1,210 @@
+{
+  "id": "contract",
+  "name": "Contract Chain (C-Chain) API",
+  "description": "\n\n_Note: Ethereum has its own notion of `networkID` and `chainID`. These have no relationship to Avalanche’s view of networkID and chainID and are purely internal to the_ [_C-Chain_](https://docs.avax.network/learn/platform-overview/#contract-chain-c-chain)_. On Mainnet, the C-Chain uses `1` and `43114` for these values. On the Fuji Testnet, it uses `1` and `43113` for these values. `networkID` anc `chainID` can also be obtained using the `net_version` and `eth_chainId` methods shown below._\n",
+  "methods": [
+    {
+      "id": "avax.export",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "Export an asset from the C-Chain to the X-Chain. After calling this method, you must call [`avm.import`](exchange#avm-import) on the X-Chain to complete the transfer.",
+      "signature": "avax.export({\n    to: string,\n    amount: int,\n    assetID: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "formals": {
+        "to": "string",
+        "amount": "int",
+        "assetID": "string",
+        "username": "string",
+        "password": "string"
+      },
+      "returns": {
+        "txID": "string"
+      },
+      "example": {
+        "to": "X-avax1q9c6ltuxpsqz7ul8j0h0d0ha439qt70sr3x2m0",
+        "amount": 500,
+        "assetID": "2nzgmhZLuVq8jc7NNu2eahkKwoJcbFWXWJCxHBVWAJEZkhquoK",
+        "username": "myUsername",
+        "password": "myPassword"
+      },
+      "notes": [
+        "`to` is the X-Chain address the asset is sent to.",
+        "`amount` is the amount of the asset to send.",
+        "`assetID` is the ID of the asset. To export AVAX use `\"AVAX\"` as the `assetID`.",
+        "The asset is sent from addresses controlled by `username` and `password`."
+      ]
+    },
+    {
+      "id": "avax.exportAVAX",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "**DEPRECATED—instead use** [**avax.export**](contract#avax-export).\n\nSend AVAX from the C-Chain to the X-Chain. After calling this method, you must call [`avm.importAVAX`](exchange#avm-importavax) on the X-Chain to complete the transfer.",
+      "signature": "```go\navax.exportAVAX({\n    from: []string,\n    to: string,\n    amount: int,\n    destinationChain: string,\n    changeAddr: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "formals": {
+        "from": "[]string",
+        "to": "string",
+        "amount": "int",
+        "destinationChain": "string",
+        "changeAddr": "string",
+        "username": "string",
+        "password": "string"
+      },
+      "returns": {
+        "txID": "string"
+      },
+      "example": {
+        "from": ["0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC"],
+        "to": "X-avax1q9c6ltuxpsqz7ul8j0h0d0ha439qt70sr3x2m0",
+        "amount": 500,
+        "destinationChain": "X",
+        "changeAddr": "0x8db97C7cEcE249c2b98bDC0226Cc4C2A57BF52FC",
+        "username": "myUsername",
+        "password": "myPassword"
+      },
+      "notes": [
+        "`from` is the C-Chain addresses the AVAX is sent from. They should be in hex format.",
+        "`to` is the X-Chain address the AVAX is sent to. It should be in bech32 format.",
+        "`amount` is the amount of nAVAX to send.",
+        "`destinationChain` is the chain the AVAX is sent to. To export funds to the X-Chain, use `\"X\"`.",
+        "`changeAddr` is the C-Chain address where any change is sent to. It should be in hex format.",
+        "The AVAX is sent from addresses controlled by `username`",
+        "`txID` is the txid of the completed ExportTx."
+      ]
+    },
+    {
+      "id": "avax.exportKey",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "Get the private key that controls a given address. The returned private key can be added to a user with `avax.importKey`.",
+      "signature": "```go\navax.exportKey({\n    username: string,\n    password: string,\n    address: string\n}) -> {\n    privateKey: string\n}",
+      "formals": {
+        "username": "string",
+        "password": "string",
+        "address": "string"
+      },
+      "returns": {
+        "privateKey": "string"
+      },
+      "example": {
+        "username": "myUsername",
+        "password": "myPassword",
+        "address": "0xc876DF0F099b3eb32cBB78820d39F5813f73E18C"
+      },
+      "notes": [
+        "`username` must control `address`.",
+        "`address` is the address for which you want to export the corresponding private key. It should be in hex format.",
+        "`privateKey` is the CB58 endcoded string representation of the private key that controls `address`. It has a `PrivateKey-` prefix and can be used to import a key via `avax.importKey`.",
+        "`privateKeyHex` is the hex string representation of the private key that controls `address`. It can be used to import an account into Metamask."
+      ]
+    },
+    {
+      "id": "avax.getUTXOs",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "Gets the UTXOs that reference a given address.",
+      "signature": "avax.getUTXOs({\n    addresses: string,\n    limit: int, (optional)\n    startIndex: { (optional)\n        address: string,\n        utxo: string\n    },\n    sourceChain: string,\n    encoding: string (optional)\n}) -> {\n    numFetched: int,\n    utxos: []string,\n    endIndex: {\n        address: string,\n        utxo: string\n    }\n}",
+      "formals": {
+        "addresses": "string",
+        "limit": "?int",
+        "startIndex": "?object",
+        "sourceChain": "string",
+        "encoding": "?string"
+      },
+      "returns": {
+        "numFetched": "int",
+        "utxos": "[]string",
+        "endIndex": "object"
+      },
+      "example": {
+        "addresses": ["C-avax1yzt57wd8me6xmy3t42lz8m5lg6yruy79m6whsf"],
+        "sourceChain": "X",
+        "startIndex": {
+          "address": "C-avax1yzt57wd8me6xmy3t42lz8m5lg6yruy79m6whsf",
+          "utxo": "22RXW7SWjBrrxu2vzDkd8uza7fuEmNpgbj58CxBob9UbP37HSB"
+        },
+        "encoding": "cb58"
+      },
+      "notes": [
+        "`utxos` is a list of UTXOs such that each UTXO references at least one address in `addresses`.",
+        "At most `limit` UTXOs are returned. If `limit` is omitted or greater than 1024, it is set to 1024.",
+        "This method supports pagination. `endIndex` denotes the last UTXO returned. To get the next set of UTXOs, use the value of `endIndex` as `startIndex` in the next call.",
+        "If `startIndex` is omitted, will fetch all UTXOs up to `limit`.",
+        "When using pagination (ie when `startIndex` is provided), UTXOs are not guaranteed to be unique across multiple calls. That is, a UTXO may appear in the result of the first call, and then again in the second call.",
+        "When using pagination, consistency is not guaranteed across multiple calls. That is, the UTXO set of the addresses may have changed between calls.",
+        "`encoding` sets the format for the returned UTXOs. Can be either “cb58” or “hex”. Defaults to “cb58”."
+      ]
+    },
+    {
+      "id": "avax.import",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "Finalize the transfer of a non-AVAX or AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.export`](exchange#avm-export) method to initiate the transfer.",
+      "signature": "```go\navax.import({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "formals": {
+        "to": "string",
+        "sourceChain": "string",
+        "username": "string",
+        "password": "string"
+      },
+      "returns": {
+        "txID": "string"
+      },
+      "example": {
+        "to": "0x4b879aff6b3d24352Ac1985c1F45BA4c3493A398",
+        "sourceChain": "X",
+        "username": "myUsername",
+        "password": "myPassword"
+      },
+      "notes": [
+        "`to` is the address the asset is sent to. This must be the same as the `to` argument in the corresponding call to the C-Chain's `export`.",
+        "`sourceChain` is the ID or alias of the chain the asset is being imported from. To import funds from the X-Chain, use `\"X\"`.",
+        "`username` is the user that controls `to`.",
+        "`txID` is the ID of the completed ImportTx."
+      ]
+    },
+    {
+      "id": "avax.importAVAX",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "**DEPRECATED—instead use** [**avax.import**](contract#avax-import)\n\nFinalize a transfer of AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.exportAVAX`](exchange#avm-exportavax) method to initiate the transfer.",
+      "signature": "```go\navax.importAVAX({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "formals": {
+        "to": "string",
+        "sourceChain": "string",
+        "username": "string",
+        "password": "string"
+      },
+      "returns": {
+        "txID": "string"
+      },
+      "example": {
+        "to": "0x4b879aff6b3d24352Ac1985c1F45BA4c3493A398",
+        "sourceChain": "X",
+        "username": "myUsername",
+        "password": "myPassword"
+      },
+      "notes": [
+        "`to` is the address the AVAX is sent to. It should be in hex format.",
+        "`sourceChain` is the ID or alias of the chain the AVAX is being imported from. To import funds from the X-Chain, use `\"X\"`.",
+        "`username` is the user that controls `to`.",
+        "`txID` is the ID of the completed ImportTx."
+      ]
+    },
+    {
+      "id": "avax.importKey",
+      "endpoint": "/ext/bc/C/avax",
+      "description": "Give a user control over an address by providing the private key that controls the address.",
+      "signature": "```go\navax.importKey({\n    username: string,\n    password: string,\n    privateKey: string\n}) -> {\n    address: string\n}",
+      "formals": {
+        "username": "string",
+        "password": "string",
+        "privateKey": "string"
+      },
+      "returns": {
+        "address": "string"
+      },
+      "example": {
+        "username": "myUsername",
+        "password": "myPassword",
+        "privateKey": "PrivateKey-2o2uPgTSf3aR5nW6yLHjBEAiatAFKEhApvYzsjvAJKRXVWCYkE"
+      },
+      "notes": [
+        "Add `privateKey` to `username`'s set of private keys.",
+        "`address` is the address `username` now controls with the private key. It will be in hex format."
+      ]
+    }
+  ]
+}

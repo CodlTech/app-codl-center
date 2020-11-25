@@ -38,9 +38,12 @@ function parseApi (id, doc) {
 function pickMethodsSection (sections) {
   if (sections.length === 1) {
     return sections[0]
-  } else {
-    return sections.find((s) => s.match(/^(API )?Methods/))
   }
+
+  const evmMethods = sections.find((s) => s.match(/^AVAX RPC/))
+  if (evmMethods) return evmMethods
+
+  return sections.find((s) => s.match(/^(API )?Methods/))
 }
 
 function parseMethod (str) {
@@ -57,7 +60,7 @@ function parseMethod (str) {
 
   // Sometimes, there's another section before signature (e.g: avm.buildGenesis)
   for (let i = 2; i < sectionsAndTitles.length; i++) {
-    if (sectionsAndTitles[i].match(/#### \*\*Signature\*\*/)) break
+    if (sectionsAndTitles[i].match(/#### (\*\*)?Signature(\*\*)?/)) break
     sectionsAndTitles[i] = "#" // Gets filtered out just after
   }
 
@@ -71,6 +74,12 @@ function parseMethod (str) {
       // Sometimes, "Notes" is missing.
       sections.splice(3, 0, "")
     }
+  }
+
+  if (sections[3].match(/\*\*Request\*\*/)) {
+    // EVM doc can have notes in two lists
+    sections[3] = `${sections[4]}\n${sections[6]}`
+    sections.splice(4, 3)
   }
 
   const doc = {
@@ -241,6 +250,11 @@ function rewriteDocLinks (markdown) {
       .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
       // (../avadocs-link[.md])
       .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
+      // (https://docs.avax.network/.../api-link#method-hash)
+      .replace(
+        /\(https:\/\/docs\.avax.network\/[^)]*\/avalanchego-apis\/(\w+)-[^#]+#([\w-]*)\)/g,
+        "($1#$2)"
+      )
   )
 }
 
