@@ -42,7 +42,7 @@ program
   .alias("a")
   .action(({ args }) => {
     const filename = args[0]
-    if (!apiId) usageError("Missing argument")
+    if (!filename) usageError("Missing argument")
 
     const doc = getApiDocumentation(filename)
     const apiId = filename.replace(/-.*/, "")
