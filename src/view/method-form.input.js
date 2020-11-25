@@ -61,8 +61,7 @@ class MethodFormInput extends View {
 }
 
 /* Configuration */
-MethodFormInput.$inputDelay = 0
-
+MethodFormInput.$inputDelay = 40
 /* Types */
 
 MethodFormInput.types = {
