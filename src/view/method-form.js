@@ -33,8 +33,8 @@ class MethodForm extends View {
     }
   }
 
-  checkAndSubmit (event) {
-    const form = event.path.find((x) => x.tagName === "FORM")
+  checkAndSubmit () {
+    const form = this.domNode
     if (!form.checkValidity()) return
 
     this.submit()
