@@ -5,6 +5,8 @@
   box-shadow: unset; // Picnic
   background: linear-gradient(180deg, $secondary 71%, $black, 71%, $black 74%, #fff 75%, rgba(256, 256, 256, 0.5) 90%, rgba(256, 256, 256, 0));
 
+  white-space: nowrap;
+
   .logo {
     height: 3em;
     margin-top: 0.25em;
