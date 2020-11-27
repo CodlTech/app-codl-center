@@ -36,13 +36,13 @@
       "id": "avax.exportAVAX",
       "endpoint": "/ext/bc/C/avax",
       "description": "**DEPRECATED—instead use** [**avax.export**](contract#avax-export).\n\nSend AVAX from the C-Chain to the X-Chain. After calling this method, you must call [`avm.importAVAX`](exchange#avm-importavax) on the X-Chain to complete the transfer.",
-      "signature": "```go\navax.exportAVAX({\n    from: []string,\n    to: string,\n    amount: int,\n    destinationChain: string,\n    changeAddr: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "signature": "```go\navax.exportAVAX({\n    to: string,\n    amount: int,\n    destinationChain: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
-        "from": "[]string",
         "to": "string",
         "amount": "int",
         "destinationChain": "string",
-        "changeAddr": "string",
+        "from": "?[]string",
+        "changeAddr": "?string",
         "username": "string",
         "password": "string"
       },
