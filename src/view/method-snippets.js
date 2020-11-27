@@ -80,7 +80,7 @@ class MethodSnippets extends View {
     const position = anchor.getBoundingClientRect()
     if (position.top >= 0) return
 
-    anchor.scrollIntoView({ behavior: "smooth" })
+    anchor.scrollIntoView()
   }
 
   scrollUpCode () {
