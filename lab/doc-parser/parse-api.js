@@ -143,7 +143,7 @@ fieldParser.signature = function (doc) {
   return (
     trimTrailingSeparators(doc.signature)
       // Trim markdown syntax
-      .replace(/^```(text|cpp).*\n/, "")
+      .replace(/^```(text|cpp|go).*\n/, "")
       .replace(/\n```$/, "")
       // Normalize indentation
       .replace(/\n {4}{\s*([^>]*)\s*},?\s*\) ->/, (_, group1) => {

@@ -36,7 +36,7 @@
       "id": "avax.exportAVAX",
       "endpoint": "/ext/bc/C/avax",
       "description": "**DEPRECATED—instead use** [**avax.export**](contract#avax-export).\n\nSend AVAX from the C-Chain to the X-Chain. After calling this method, you must call [`avm.importAVAX`](exchange#avm-importavax) on the X-Chain to complete the transfer.",
-      "signature": "```go\navax.exportAVAX({\n    to: string,\n    amount: int,\n    destinationChain: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "signature": "avax.exportAVAX({\n    to: string,\n    amount: int,\n    destinationChain: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
         "amount": "int",
@@ -72,7 +72,7 @@
       "id": "avax.exportKey",
       "endpoint": "/ext/bc/C/avax",
       "description": "Get the private key that controls a given address. The returned private key can be added to a user with `avax.importKey`.",
-      "signature": "```go\navax.exportKey({\n    username: string,\n    password: string,\n    address: string\n}) -> {\n    privateKey: string\n}",
+      "signature": "avax.exportKey({\n    username: string,\n    password: string,\n    address: string\n}) -> {\n    privateKey: string\n}",
       "formals": {
         "username": "string",
         "password": "string",
@@ -133,7 +133,7 @@
       "id": "avax.import",
       "endpoint": "/ext/bc/C/avax",
       "description": "Finalize the transfer of a non-AVAX or AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.export`](exchange#avm-export) method to initiate the transfer.",
-      "signature": "```go\navax.import({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "signature": "avax.import({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
         "sourceChain": "string",
@@ -160,7 +160,7 @@
       "id": "avax.importAVAX",
       "endpoint": "/ext/bc/C/avax",
       "description": "**DEPRECATED—instead use** [**avax.import**](contract#avax-import)\n\nFinalize a transfer of AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.exportAVAX`](exchange#avm-exportavax) method to initiate the transfer.",
-      "signature": "```go\navax.importAVAX({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
+      "signature": "avax.importAVAX({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
         "sourceChain": "string",
@@ -187,7 +187,7 @@
       "id": "avax.importKey",
       "endpoint": "/ext/bc/C/avax",
       "description": "Give a user control over an address by providing the private key that controls the address.",
-      "signature": "```go\navax.importKey({\n    username: string,\n    password: string,\n    privateKey: string\n}) -> {\n    address: string\n}",
+      "signature": "avax.importKey({\n    username: string,\n    password: string,\n    privateKey: string\n}) -> {\n    address: string\n}",
       "formals": {
         "username": "string",
         "password": "string",
