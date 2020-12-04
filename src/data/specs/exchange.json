@@ -7,8 +7,9 @@
       "id": "avm.buildGenesis",
       "endpoint": "/ext/vm/avm",
       "description": "Given a JSON representation of this Virtual Machine’s genesis state, create the byte representation of that state.",
-      "signature": "avm.buildGenesis({\n    genesisData: JSON,\n    encoding: string (optional)\n}) -> {\n    bytes: string,\n    encoding: string\n}",
+      "signature": "avm.buildGenesis({\n    networkID: int,\n    genesisData: JSON,\n    encoding: string (optional)\n}) -> {\n    bytes: string,\n    encoding: string\n}",
       "formals": {
+        "networkID": "int",
         "genesisData": "object",
         "encoding": "?string"
       },
@@ -17,6 +18,7 @@
         "encoding": "string"
       },
       "example": {
+        "networkId": 16,
         "genesisData": {
           "asset1": {
             "name": "myFixedCapAsset",
@@ -137,7 +139,7 @@
     {
       "id": "avm.mint",
       "endpoint": "/ext/bc/X",
-      "description": "Mint units of a variable-cap asset created with [`avm.createVariableCapAsset`](#avm-createvariablecapasset).",
+      "description": "Mint units of a variable-cap asset created with [`avm.createVariableCapAsset`](exchange-chain-x-chain-api.md#avm-createvariablecapasset).",
       "signature": "avm.mint({\n    amount: int,\n    assetID: string,\n    to: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "amount": "int",
@@ -158,8 +160,8 @@
         "to": "X-avax1ap39w4a7fk0au083rrmnhc2pqk20yjt6s3gzkx",
         "from": ["X-avax1s65kep4smpr9cnf6uh9cuuud4ndm2z4jguj3gp"],
         "changeAddr": "X-avax1turszjwn05lflpewurw96rfrd3h6x8flgs5uf8",
-        "username": "USERNAME GOES HERE",
-        "password": "PASSWORD GOES HERE"
+        "username": "myUsername",
+        "password": "myPassword"
       },
       "notes": [
         "`amount` units of `assetID` will be created and controlled by address `to`.",
@@ -269,7 +271,7 @@
     {
       "id": "avm.mintNFT",
       "endpoint": "/ext/bc/X",
-      "description": "Mint non-fungible tokens which were created with [`avm.createNFTAsset`](#avm-createnftasset).\n\n_Related documentation: [Creating a NFT part 1](https://docs.avax.network/build/tutorials/smart-digital-assets/creating-a-nft-part-1)_",
+      "description": "Mint non-fungible tokens which were created with [`avm.createNFTAsset`](exchange-chain-x-chain-api.md#avm-createnftasset).\n\n_Related documentation: [Creating a NFT part 1](https://docs.avax.network/build/tutorials/smart-digital-assets/creating-a-nft-part-1)_",
       "signature": "avm.mintNFT({\n    assetID: string,\n    payload: string,\n    to: string,\n    encoding: string, (optional)\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "assetID": "string",
@@ -291,8 +293,8 @@
         "to": "X-avax1ap39w4a7fk0au083rrmnhc2pqk20yjt6s3gzkx",
         "from": ["X-avax1s65kep4smpr9cnf6uh9cuuud4ndm2z4jguj3gp"],
         "changeAddr": "X-avax1turszjwn05lflpewurw96rfrd3h6x8flgs5uf8",
-        "username": "USERNAME GOES HERE",
-        "password": "PASSWORD GOES HERE"
+        "username": "myUsername",
+        "password": "myPassword"
       },
       "notes": [
         "`assetID` is the assetID of the newly created NFT asset.",
@@ -308,7 +310,7 @@
     {
       "id": "avm.export",
       "endpoint": "/ext/bc/X",
-      "description": "Send a non-AVAX from the X-Chain to the P-Chain or C-Chain. After calling this method, you must call [`avax.import`](contract-chain-c-chain-api#avax-import) on the C-Chain to complete the transfer.",
+      "description": "Send a non-AVAX from the X-Chain to the P-Chain or C-Chain. After calling this method, you must call [`avax.import`](contract-chain-c-chain-api.md#avax-import) on the C-Chain to complete the transfer.",
       "signature": "avm.export({\n    to: string,\n    amount: int,\n    assetID: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "to": "string",
@@ -381,7 +383,7 @@
     {
       "id": "avm.exportKey",
       "endpoint": "/ext/bc/X",
-      "description": "Get the private key that controls a given address.   The returned private key can be added to a user with [`avm.importKey`](#avm-importkey).",
+      "description": "Get the private key that controls a given address.   The returned private key can be added to a user with [`avm.importKey`](exchange-chain-x-chain-api.md#avm-importkey).",
       "signature": "avm.exportKey({\n    username: string,\n    password: string,\n    address: string\n}) -> {\n    privateKey: string\n}",
       "formals": {
         "username": "string",
@@ -420,19 +422,21 @@
       "id": "avm.getAssetDescription",
       "endpoint": "/ext/bc/X",
       "description": "Get information about an asset.",
-      "signature": "avm.getAssetDescription({\n    assetID: string\n}) -> {\n    name: string,\n    symbol: string,\n    denomination: int\n}",
+      "signature": "avm.getAssetDescription({\n    assetID: string\n}) -> {\n    assetId: string,\n    name: string,\n    symbol: string,\n    denomination: int\n}",
       "formals": {
         "assetID": "string"
       },
       "returns": {
+        "assetId": "string",
         "name": "string",
         "symbol": "string",
         "denomination": "int"
       },
       "example": {
-        "assetID": "ZiKfqRXCZgHLgZ4rxGU9Qbycdzuq5DRY4tdSNS9ku8kcNxNLD"
+        "assetID": "2fombhL7aGPwj3KH4bfrmJwW6PVnMobf9Y2fn9GwxiAAJyFDbe"
       },
       "notes": [
+        "`assetID` is the id of the asset for which the information is requested.",
         "`name` is the asset’s human-readable, not necessarily unique name.",
         "`symbol` is the asset’s symbol.",
         "`denomination` determines how balances of this asset are displayed by user interfaces. If denomination is 0, 100 units of this asset are displayed as 100. If denomination is 1, 100 units of this asset are displayed as 10.0. If denomination is 2, 100 units of this asset are displays as .100, etc."
@@ -453,7 +457,11 @@
       "example": {
         "address": "X-avax1ns3jzhqyk7parg29qan56k0fcxwstc76cjqq2s",
         "assetID": "2pYGetDWyKdHxpFxh2LHeoLNCH6H5vxxCxHQtFnnFaYxLsqtHC"
-      }
+      },
+      "notes": [
+        "`address` owner of the asset",
+        "`assetID` id of the asset for which the balance is requested"
+      ]
     },
     {
       "id": "avm.getTx",
@@ -498,9 +506,9 @@
       "id": "avm.getUTXOs",
       "endpoint": "/ext/bc/X",
       "description": "Gets the UTXOs that reference a given address. If sourceChain is specified, then it will retrieve the atomic UTXOs exported from that chain to the X Chain.",
-      "signature": "avm.getUTXOs({\n    addresses: string,\n    limit: int, (optional)\n    startIndex: { (optional)\n        address: string,\n        utxo: string\n    },\n    sourceChain: string, (optional)\n    encoding: string (optional)\n}) -> {\n    numFetched: int,\n    utxos: []string,\n    endIndex: {\n        address: string,\n        utxo: string\n    }\n}",
+      "signature": "avm.getUTXOs({\n    addresses: []string,\n    limit: int, (optional)\n    startIndex: { (optional)\n        address: string,\n        utxo: string\n    },\n    sourceChain: string, (optional)\n    encoding: string (optional)\n}) -> {\n    numFetched: int,\n    utxos: []string,\n    endIndex: {\n        address: string,\n        utxo: string\n    },\n    sourceChain: string, (optional)\n    encoding: string\n}",
       "formals": {
-        "addresses": "string",
+        "addresses": "[]string",
         "limit": "?int",
         "startIndex": "?object",
         "sourceChain": "?string",
@@ -509,7 +517,9 @@
       "returns": {
         "numFetched": "int",
         "utxos": "[]string",
-        "endIndex": "object"
+        "endIndex": "object",
+        "sourceChain": "string",
+        "encoding": "string"
       },
       "example": {
         "addresses": [
@@ -524,7 +534,7 @@
         "At most `limit` UTXOs are returned. If `limit` is omitted or greater than 1024, it is set to 1024.",
         "This method supports pagination. `endIndex` denotes the last UTXO returned. To get the next set of UTXOs, use the value of `endIndex` as `startIndex` in the next call.",
         "If `startIndex` is omitted, will fetch all UTXOs up to `limit`.",
-        "When using pagination (ie when `startIndex` is provided), UTXOs are not guaranteed to be unique across multiple calls. That is, a UTXO may appear in the result of the first call, and then again in the second call.",
+        "When using pagination (when `startIndex` is provided), UTXOs are not guaranteed to be unique across multiple calls. That is, a UTXO may appear in the result of the first call, and then again in the second call.",
         "When using pagination, consistency is not guaranteed across multiple calls. That is, the UTXO set of the addresses may have changed between calls.",
         "`encoding` sets the format for the returned UTXOs. Can be either “cb58” or “hex”. Defaults to “cb58”."
       ]
@@ -532,7 +542,7 @@
     {
       "id": "avm.import",
       "endpoint": "/ext/bc/X",
-      "description": "Finalize a transfer of AVAX from the P-Chain or C-Chain to the X-Chain. Before this method is called, you must call the P-Chain’s [`platform.exportAVAX`](platform-chain-p-chain-api#platform-exportavax) or C-Chain’s [`avax.export`](contract-chain-c-chain-api#avax-export) method to initiate the transfer.",
+      "description": "Finalize a transfer of AVAX from the P-Chain or C-Chain to the X-Chain. Before this method is called, you must call the P-Chain’s [`platform.exportAVAX`](platform-chain-p-chain-api.md#platform-exportavax) or C-Chain’s [`avax.export`](contract-chain-c-chain-api.md#avax-export) method to initiate the transfer.",
       "signature": "avm.import({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
@@ -552,13 +562,14 @@
       "notes": [
         "`to` is the address the AVAX is sent to. This must be the same as the `to` argument in the corresponding call to the P-Chain’s `exportAVAX` or C-Chain's `export`.",
         "`sourceChain` is the ID or alias of the chain the AVAX is being imported from. To import funds from the C-Chain, use `\"C\"`.",
-        "`username` is the user that controls `to`."
+        "`username` is the user that controls `to`.",
+        "`txID` is the ID of the newly created atomic transaction."
       ]
     },
     {
       "id": "avm.importAVAX",
       "endpoint": "/ext/bc/X",
-      "description": "Finalize a transfer of AVAX from the P-Chain to the X-Chain. Before this method is called, you must call the P-Chain’s [`platform.exportAVAX`](platform-chain-p-chain-api#platform-exportavax) method to initiate the transfer.",
+      "description": "Finalize a transfer of AVAX from the P-Chain to the X-Chain. Before this method is called, you must call the P-Chain’s [`platform.exportAVAX`](platform-chain-p-chain-api.md#platform-exportavax) method to initiate the transfer.",
       "signature": "avm.importAVAX({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
@@ -607,14 +618,13 @@
       "id": "avm.issueTx",
       "endpoint": "/ext/bc/X",
       "description": "Send a signed transaction to the network. `encoding` specifies the format of the signed transaction. Can be either “cb58” or “hex”. Defaults to “cb58”.",
-      "signature": "avm.issueTx({\n    tx: string,\n    encoding: string (optional)\n}) -> {\n    txID: string,\n    encoding: string\n}",
+      "signature": "avm.issueTx({\n    tx: string,\n    encoding: string (optional)\n}) -> {\n    txID: string\n}",
       "formals": {
         "tx": "string",
         "encoding": "?string"
       },
       "returns": {
-        "txID": "string",
-        "encoding": "string"
+        "txID": "string"
       },
       "example": {
         "tx": "6sTENqXfk3gahxkJbEPsmX9eJTEFZRSRw83cRJqoHWBiaeAhVbz9QV4i6SLd6Dek4eLsojeR8FbT3arFtsGz9ycpHFaWHLX69edJPEmj2tPApsEqsFd7wDVp7fFxkG6HmySR",
@@ -642,14 +652,14 @@
       "id": "avm.send",
       "endpoint": "/ext/bc/X",
       "description": "Send a quantity of an asset to an address.",
-      "signature": "avm.send({\n    amount: int,\n    assetID: string,\n    to: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    memo: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
+      "signature": "avm.send({\n    amount: int,\n    assetID: string,\n    to: string,\n    memo: string, (optional)\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "amount": "int",
         "assetID": "string",
         "to": "string",
+        "memo": "?string",
         "from": "?[]string",
         "changeAddr": "?string",
-        "memo": "?string",
         "username": "string",
         "password": "string"
       },
@@ -679,7 +689,7 @@
     {
       "id": "avm.sendMultiple",
       "endpoint": "/ext/bc/X",
-      "description": "Sends an amount of assetID to an array of specified addresses from a list of owned addresses.",
+      "description": "Sends multiple transfers of `amount` of `assetID`, to a specified address from a list of owned addresses.",
       "signature": "avm.sendMultiple({\n    outputs: []{\n      assetID: string,\n      amount: int,\n      to: string\n    },\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    memo: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "outputs": "[]object",
@@ -706,17 +716,17 @@
             "amount": 10
           }
         ],
+        "memo": "hi, mom!",
         "from": ["X-avax1s65kep4smpr9cnf6uh9cuuud4ndm2z4jguj3gp"],
         "changeAddr": "X-avax1turszjwn05lflpewurw96rfrd3h6x8flgs5uf8",
-        "memo": "hi, mom!",
         "username": "username",
         "password": "myPassword"
       },
       "notes": [
         "`outputs` is an array of object literals which each contain an `assetID`, `amount` and `to`.",
+        "`memo` is an optional message, whose length can be up to 256 bytes.",
         "`from` are the addresses that you want to use for this operation. If omitted, uses any of your addresses as needed.",
         "`changeAddr` is the address any change will be sent to. If omitted, change is sent to one of the addresses controlled by the user.",
-        "You can attach a `memo`, whose length can be up to 256 bytes.",
         "The asset is sent from addresses controlled by user `username`. (Of course, that user will need to hold at least the balance of the asset being sent.)"
       ]
     },
@@ -747,7 +757,7 @@
         "password": "myPassword"
       },
       "notes": [
-        "`assetID` is the asset ID of the NFT of the NFT being sent.",
+        "`assetID` is the asset ID of the NFT being sent.",
         "`groupID` is the NFT group from which to send the NFT. NFT creation allows multiple groups under each NFT ID. You can issue multiple NFTs to each group.",
         "`to` is the X-Chain address the NFT is sent to.",
         "`from` are the addresses that you want to use for this operation. If omitted, uses any of your addresses as needed. `changeAddr` is the address any change will be sent to. If omitted, change is sent to one of the addresses controlled by the user.",
@@ -755,17 +765,34 @@
       ]
     },
     {
+      "id": "wallet.issueTx",
+      "endpoint": "/ext/bc/X/wallet",
+      "description": "Send a signed transaction to the network and assume the tx will be accepted. `encoding` specifies the format of the signed transaction. Can be either “cb58” or “hex”. Defaults to “cb58”.\n\nThis call is made to the wallet API endpoint:\n\n`/ext/bc/X/wallet`",
+      "signature": "wallet.issueTx({\n    tx: string,\n    encoding: string (optional)\n}) -> {\n    txID: string\n}",
+      "formals": {
+        "tx": "string",
+        "encoding": "?string"
+      },
+      "returns": {
+        "txID": "string"
+      },
+      "example": {
+        "tx": "6sTENqXfk3gahxkJbEPsmX9eJTEFZRSRw83cRJqoHWBiaeAhVbz9QV4i6SLd6Dek4eLsojeR8FbT3arFtsGz9ycpHFaWHLX69edJPEmj2tPApsEqsFd7wDVp7fFxkG6HmySR",
+        "encoding": "cb58"
+      }
+    },
+    {
       "id": "wallet.send",
       "endpoint": "/ext/bc/X/wallet",
-      "description": "Send a quantity of an asset to an address and assume the tx will be accepted so that future calls can use the modified UTXO set.",
-      "signature": "wallet.send({\n    amount: int,\n    assetID: string,\n    to: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    memo: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
+      "description": "Send a quantity of an asset to an address and assume the tx will be accepted so that future calls can use the modified UTXO set.\n\nThis call is made to the wallet API endpoint:\n\n`/ext/bc/X/wallet`",
+      "signature": "wallet.send({\n    amount: int,\n    assetID: string,\n    to: string,\n    memo: string, (optional)\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "amount": "int",
         "assetID": "string",
         "to": "string",
+        "memo": "?string",
         "from": "?[]string",
         "changeAddr": "?string",
-        "memo": "?string",
         "username": "string",
         "password": "string"
       },
@@ -777,9 +804,9 @@
         "assetID": "AVAX",
         "amount": 10000,
         "to": "X-avax1yzt57wd8me6xmy3t42lz8m5lg6yruy79m6whsf",
+        "memo": "hi, mom!",
         "from": ["X-avax1s65kep4smpr9cnf6uh9cuuud4ndm2z4jguj3gp"],
         "changeAddr": "X-avax1turszjwn05lflpewurw96rfrd3h6x8flgs5uf8",
-        "memo": "hi, mom!",
         "username": "userThatControlsAtLeast10000OfThisAsset",
         "password": "myPassword"
       },
@@ -795,7 +822,7 @@
     {
       "id": "wallet.sendMultiple",
       "endpoint": "/ext/bc/X/wallet",
-      "description": "Sends an amount of assetID to an array of specified addresses from a list of owned of addresses and assume the tx will be accepted so that future calls can use the modified UTXO set.",
+      "description": "Send multiple transfers of `amount` of `assetID`, to a specified address from a list of owned of addresses and assume the tx will be accepted so that future calls can use the modified UTXO set.\n\nThis call is made to the wallet API endpoint:\n\n`/ext/bc/X/wallet`",
       "signature": "wallet.sendMultiple({\n    outputs: []{\n      assetID: string,\n      amount: int,\n      to: string\n    },\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    memo: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string,\n    changeAddr: string\n}",
       "formals": {
         "outputs": "[]object",
@@ -822,9 +849,9 @@
             "amount": 10
           }
         ],
+        "memo": "hi, mom!",
         "from": ["X-avax1s65kep4smpr9cnf6uh9cuuud4ndm2z4jguj3gp"],
         "changeAddr": "X-avax1turszjwn05lflpewurw96rfrd3h6x8flgs5uf8",
-        "memo": "hi, mom!",
         "username": "username",
         "password": "myPassword"
       },

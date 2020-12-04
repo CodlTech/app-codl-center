@@ -69,7 +69,7 @@
     {
       "id": "admin.startCPUProfiler",
       "endpoint": "/ext/admin",
-      "description": "Start profiling the CPU utilization of the node. To stop, call `stopCPUProfiler`. On stop, writes the profile to `cpu.profile`.",
+      "description": "Start profiling the CPU utilization of the node. To stop, call `admin.stopCPUProfiler`. On stop, writes the profile to `cpu.profile`.",
       "signature": "admin.startCPUProfiler() -> {\n    success: bool\n}",
       "returns": {
         "success": "bool"

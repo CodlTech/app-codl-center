@@ -6,7 +6,7 @@
     {
       "id": "avax.export",
       "endpoint": "/ext/bc/C/avax",
-      "description": "Export an asset from the C-Chain to the X-Chain. After calling this method, you must call [`avm.import`](exchange#avm-import) on the X-Chain to complete the transfer.",
+      "description": "Export an asset from the C-Chain to the X-Chain. After calling this method, you must call [`avm.import`](exchange-chain-x-chain-api.md#avm-import) on the X-Chain to complete the transfer.",
       "signature": "avax.export({\n    to: string,\n    amount: int,\n    assetID: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
@@ -35,7 +35,7 @@
     {
       "id": "avax.exportAVAX",
       "endpoint": "/ext/bc/C/avax",
-      "description": "**DEPRECATED—instead use** [**avax.export**](contract#avax-export).\n\nSend AVAX from the C-Chain to the X-Chain. After calling this method, you must call [`avm.importAVAX`](exchange#avm-importavax) on the X-Chain to complete the transfer.",
+      "description": "**DEPRECATED—instead use** [**avax.export**](contract-chain-c-chain-api.md#avax-export).\n\nSend AVAX from the C-Chain to the X-Chain. After calling this method, you must call [`avm.importAVAX`](exchange-chain-x-chain-api.md#avm-importavax) on the X-Chain to complete the transfer.",
       "signature": "avax.exportAVAX({\n    to: string,\n    amount: int,\n    destinationChain: string,\n    from: []string, (optional)\n    changeAddr: string, (optional)\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
@@ -132,7 +132,7 @@
     {
       "id": "avax.import",
       "endpoint": "/ext/bc/C/avax",
-      "description": "Finalize the transfer of a non-AVAX or AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.export`](exchange#avm-export) method to initiate the transfer.",
+      "description": "Finalize the transfer of a non-AVAX or AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.export`](exchange-chain-x-chain-api.md#avm-export) method to initiate the transfer.",
       "signature": "avax.import({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",
@@ -159,7 +159,7 @@
     {
       "id": "avax.importAVAX",
       "endpoint": "/ext/bc/C/avax",
-      "description": "**DEPRECATED—instead use** [**avax.import**](contract#avax-import)\n\nFinalize a transfer of AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.exportAVAX`](exchange#avm-exportavax) method to initiate the transfer.",
+      "description": "**DEPRECATED—instead use** [**avax.import**](contract-chain-c-chain-api.md#avax-import)\n\nFinalize a transfer of AVAX from the X-Chain to the C-Chain. Before this method is called, you must call the X-Chain's [`avm.exportAVAX`](exchange-chain-x-chain-api.md#avm-exportavax) method to initiate the transfer.",
       "signature": "avax.importAVAX({\n    to: string,\n    sourceChain: string,\n    username: string,\n    password: string\n}) -> {\n    txID: string\n}",
       "formals": {
         "to": "string",

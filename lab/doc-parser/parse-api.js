@@ -151,6 +151,7 @@ fieldParser.signature = function (doc) {
         return `{\n    ${indented}}) ->`
       })
       // Uninline params
+      .replace(/\/\/optional/g, "(optional)")
       .replace(/{ *(\w[^}]* \(optional\)) *}/g, "{\n    $1\n}")
       .replace(/{ *(\w[^}]*) *}/g, (_, group1) => {
         const params = group1.split(/, */)
@@ -175,8 +176,8 @@ fieldParser.formals = function (doc) {
 
   const args = pickGroup(signature, /\(\{(.*)\},?\)->/)
   const argsSimplified = args
-    .replace(/{\(optional\)/g, "?{") // Optional object
-    .replace(/:([^,]*),?\(optional\)/g, ":?$1,") // Optional -> use ? prefix
+    .replace(/{\/\/optional/g, "?{") // Optional object
+    .replace(/:([^,]*),?\/\/optional/g, ":?$1,") // Optional -> use ? prefix
     .replace(/:(\??(\[\])?){[^}]+}/g, ":$1object") // Flatten type specs
     .replace("JSON", "object") // We prefer to call JSON `object`s
     .replace(/,$/, "") // Fix last item traling period
@@ -190,6 +191,7 @@ fieldParser.returns = function (doc) {
   const returns = pickGroup(signature, /->({.*})/)
 
   const returnsSimplified = returns
+    .replace(/\/\/optional/g, "") // Don't mark optional return params for now
     .replace(/\[[^\]]+\]/, "[]") // No array length
     .replace(/:(\[\])?{[^}]+}/g, ":$1object") // Flat type specs
     .replace(/,}/, "}") // Fix inconsistency introduced with previous line
@@ -241,13 +243,13 @@ function rewriteDocLinks (markdown) {
         return `_Related documentation: [${title}](${url})_`
       })
       // Embeds
-      .replace(/{% embed url="(.*)" %}/, (_, url) => {
+      .replace(/{% embed url="([^"]*)" .*%}/, (_, url) => {
         const domain = pickGroup(url, /:\/\/(?:www.)?([^/]+)/)
         const domainPretty = capitalize(domain)
         return `_External ressource: [${domainPretty}](${url})_`
       })
       // (../../avadocs-link[.md])
-      .replace(/\((\.\.\/){2}([^).]+)(\.md)?\)/g, `(${avaDocs}/$2)`)
+      .replace(/\((\.\.\/){2}([^).]+)(\.md)?(#[^)]*)?\)/g, `(${avaDocs}/$2$4)`)
       // (../avadocs-link[.md])
       .replace(/\(\.\.\/([^).]+)(\.md)?\)/g, `(${avaDocs}/build/$1)`)
       // (https://docs.avax.network/.../api-link#method-hash)

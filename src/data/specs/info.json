@@ -6,7 +6,7 @@
     {
       "id": "info.getBlockchainID",
       "endpoint": "/ext/info",
-      "description": "Given a blockchain’s alias, get its ID. (See [`admin.aliasChain`](admin-api#admin-aliaschain)for more context.)",
+      "description": "Given a blockchain’s alias, get its ID. (See [`admin.aliasChain`](admin-api.md#admin-aliaschain).)",
       "signature": "info.getBlockchainID({\n    alias: string\n}) -> {\n    blockchainID: string\n}",
       "formals": {
         "alias": "string"

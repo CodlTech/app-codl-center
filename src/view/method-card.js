@@ -96,11 +96,18 @@ proto.$define("notesLi", ["notes"], (the) => {
 /* Helpers */
 
 function rewriteMethodLinks (string, apiId) {
+  const avaDocs = "https://docs.avax.network"
+  const avaApis = `${avaDocs}/build/avalanchego-apis`
+  const avaDeprecated = `${avaApis}/deprecated-api-calls`
+
+  // ](deprecated-api-calls.md#
+  const stxDeprecatedLink = /]\(deprecated-api-calls.md#/g
   // ]($api-pagename#$methodId)
-  const stxMethodLink = /]\(([^)-]+)[^)]*#([^)]+)\)/g
+  const stxMethodLink = /]\(([^/)-]+)[^/)]*#([^)]+)\)/g
   // `$apiId.$methodId`
   const stxMethodId = new RegExp(`\`(${apiId}\\.\\w+)\``, "g")
   return string
+    .replace(stxDeprecatedLink, `](${avaDeprecated}#`)
     .replace(stxMethodLink, "](?tabId=$1#$2)")
     .replace(stxMethodId, "[`$1`](#$1)")
 }
